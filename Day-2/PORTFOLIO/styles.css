@@ -81,7 +81,6 @@ body {
   flex-shrink: 0;
 }
 
-
 .about-text {
   flex: 1;
   min-width: 300px;
@@ -111,7 +110,7 @@ body {
 
 .skills {
   min-height: 100vh;
-  padding: 100px 60px;
+  padding: 100px 40px;
   background-color: rgb(70, 70, 71);
   color: whitesmoke;
 }

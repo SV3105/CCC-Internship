@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registration Form</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+
+  <body>
+    <form
+      action="submit.php"
+      method="post"
+      target="_self"
+      enctype="multipart/form-data"
+      autocomplete="on"
+    >
+      <h2>Registration Form</h2>
+
+      <!--Name-->
+      <label for="fullname">Full Name</label>
+      <input
+        type="text"
+        name="fullname"
+        id="fullname"
+        placeholder="Enter your name"
+        size="20"
+        required
+      />
+
+      <!--Email-->
+      <label for="email">Email</label>
+      <input
+        type="email"
+        name="email"
+        id="email"
+        placeholder="example@gmail.com"
+        required
+      />
+
+      <!--Password-->
+      <label for="password">Password</label>
+      <input
+        type="password"
+        name="password"
+        id="password"
+        minlength="6"
+        required
+      />
+
+      <!--Date-->
+      <label for="dob">Date of Birth</label>
+      <input type="date" name="dob" id="dob" max="2026-01-08" required />
+
+      <!--Radio Button-->
+      <label>Gender</label>
+      <div class="radio-group">
+        <label for="male">
+        <input type="radio" name="gender" id="male" value="male" required />
+        Male
+       </label>
+
+        <label for="female">
+        <input type="radio" name="gender" id="female" value="female" required />
+        Female
+        </label>
+
+        <label for="other">
+        <input type="radio" name="gender" id="other" value="other" required />
+        Other
+        </label>
+      </div>
+
+      <!--Dropdown list-->
+      <label for="country">Country</label>
+      <select name="country" id="country" required>
+        <option value="">--Select--</option>
+        <option value="india">India</option>
+        <option value="usa">USA</option>
+        <option value="uae">UAE</option>
+      </select>
+
+      <!--TextArea-->
+      <label for="about">About Yourself</label>
+      <textarea
+        name="about"
+        id="about"
+        rows="4"
+        minlength="10"
+        placeholder="Write something...">
+      </textarea>
+
+      <!--File upload-->
+      <label for="photo">Upload Passport Size Photo</label>
+      <input type="file" name="photo" id="photo" accept=".jpg, .png, .jpeg" />
+
+      <!--READONLY-->
+      <label for="code">Referral Code</label>
+      <input type="text" id="code" value="ABC890" readonly />
+
+      <!--Checkbox-->
+      <div class="terms">
+        <input type="checkbox" id="terms" name="terms" required />
+        <label for="terms">I agree to terms & conditions</label>
+      </div>
+
+      <button type="submit">Submit</button>
+      <button type="reset">Reset</button>
+    </form>
+  </body>
+</html>
