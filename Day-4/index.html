@@ -73,12 +73,20 @@
 
       <!--Dropdown list-->
       <label for="country">Country</label>
-      <select name="country" id="country" required>
-        <option value="">--Select--</option>
-        <option value="india">India</option>
-        <option value="usa">USA</option>
-        <option value="uae">UAE</option>
-      </select>
+      <input 
+        list="country-list"
+        name="country" 
+        id="country"
+        placeholder="Type or select your country"
+        required
+      />
+        <datalist id="country-list">
+        <option value="India">
+        <option value="USA">
+        <option value="UAE">
+        <option value="UK">
+        <option value="Canada">
+        </datalist>
 
       <!--TextArea-->
       <label for="about">About Yourself</label>
@@ -92,7 +100,12 @@
 
       <!--File upload-->
       <label for="photo">Upload Passport Size Photo</label>
-      <input type="file" name="photo" id="photo" accept=".jpg, .png, .jpeg" />
+      <input 
+      type="file" 
+      name="photo" 
+      id="photo" 
+      accept=".jpg, .png, .jpeg" 
+      />
 
       <!--READONLY-->
       <label for="code">Referral Code</label>

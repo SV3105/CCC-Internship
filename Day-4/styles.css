@@ -79,7 +79,7 @@ textarea:focus {
 }
 
 /* FILE INPUT */
-input[types="file"] {
+input[type="file"] {
     padding: 6px;
 }
 
