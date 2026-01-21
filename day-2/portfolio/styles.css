@@ -1,0 +1,190 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  font-size: 1.5rem;
+}
+.nav_bar {
+  position: fixed;
+  top: 0;
+  background-color: rgb(241, 92, 92);
+  width: 100%;
+  height: 80px;
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+  z-index: 1000;
+}
+
+.nav_bar ul {
+  height: 80px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 100px;
+  
+}
+
+.nav_bar li {
+  margin-right: 100px;
+  display: inline;
+  padding: 1em 2em;
+  height: 50px;
+}
+
+.nav_links {
+  color: whitesmoke;
+  text-decoration: none;
+}
+
+.nav_bar li:hover,
+.nav_bar li:focus-visible {
+  background-color: rgb(98, 98, 236);
+}
+
+.nav_links:active{
+  background-color:  rgb(98, 98, 236);
+}
+
+.home {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  background-color: rgb(70, 70, 71);
+  justify-content: center;
+  align-items: center;
+  padding-top: 80px;
+}
+
+.home-content {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 60px;
+  max-width: 1200px;
+  width: 90%;
+}
+
+.home-image {
+  margin-right: 50px;
+  width: 350px;
+  height: 350px;
+  padding-top: 30px;
+  border-radius: 50%;
+  background-image: url("./images/sneha.png");
+  background-size: cover;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+  border: 4px solid rgb(227, 74, 74);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  flex-shrink: 0;
+}
+
+.about-text {
+  flex: 1;
+  min-width: 300px;
+  color: whitesmoke;
+}
+
+.about-text p {
+  font-size: 1.5rem;
+  line-height: 2;
+  margin-bottom: 20px;
+}
+
+.home .button {
+  margin: 14px 0;
+}
+
+.footer {
+  background-color: rgb(174, 33, 33);
+  padding: 15px 0;
+  font-size: 17px;
+  color: whitesmoke;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.skills {
+  min-height: 100vh;
+  padding: 100px 40px;
+  background-color: rgb(70, 70, 71);
+  color: whitesmoke;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 3rem;
+  margin-bottom: 50px;
+  color: rgb(241, 92, 92);
+}
+
+.skills-container {
+  display: grid;
+ grid-template-columns: 1fr 1fr 1fr;
+  gap: 30px;
+}
+
+.skill-card {
+  background-color: rgb(98, 98, 236);
+  padding: 30px;
+  border-radius: 12px;
+}
+
+.skill-card:hover {
+  box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+.skill-card h3 {
+  margin-bottom: 15px;
+  color: whitesmoke;
+  border-bottom: 2px solid rgb(241, 92, 92);
+  padding-bottom: 8px;
+}
+
+.skill-card ul {
+  list-style: none;
+}
+
+.skill-card li {
+  padding: 6px 0;
+  font-size: 1.1rem;
+}
+
+.contact {
+  min-height: 100vh;
+  padding: 100px 60px;
+  background-color: rgb(70, 70, 71);
+  color: whitesmoke;
+  text-align: center;
+}
+
+.contact .section-title {
+  font-size: 3rem;
+  color: rgb(241, 92, 92);
+  margin-bottom: 30px;
+}
+
+.contact p {
+  font-size: 1.5rem;
+  margin-bottom: 30px;
+}
+
+.contact-icons {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+}
+
+.contact-icon {
+  color: #fff;
+  font-size: 2.5rem;
+}
+
+.contact-icon:hover {
+  color: rgb(241, 92, 92);
+  transform: scale(1.2);
+}
