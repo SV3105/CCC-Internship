@@ -14,6 +14,10 @@
     <header>
         <nav>
             <h1>EasyCart</h1>
+            <form action="<?php echo $base_path; ?>php/products.php" method="GET" class="nav-search">
+                <input type="text" name="search" placeholder="Search products..." value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+                <button type="submit"><i class="fas fa-search"></i></button>
+            </form>
             <ul>
                 <li><a href="<?php echo $base_path; ?>index.php" class="<?php echo ($page === 'home') ? 'active-nav' : ''; ?>">Home</a></li>
                 <li><a href="<?php echo $base_path; ?>php/products.php" class="<?php echo ($page === 'products') ? 'active-nav' : ''; ?>">Collections</a></li>

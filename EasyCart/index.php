@@ -28,12 +28,12 @@ include './includes/header.php';
                 </div>
                 <div class="hero-visual-card">
                     <div class="visual-img-placeholder">
-                        <i class="fas fa-shoe-prints"></i>
+                        <i class="fas fa-bolt"></i>
                     </div>
                     <div class="visual-content">
                         <h4>Ultra Boost 5.0</h4>
                         <p>Comfort Redefined</p>
-                        <div class="visual-price">₹4,999</div>
+                        <div class="visual-price">₹2,999</div>
                     </div>
                 </div>
             </div>
