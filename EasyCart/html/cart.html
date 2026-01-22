@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shopping Cart - EasyCart</title>
     <link rel="stylesheet" href="../css/styles.css?v=4">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../css/cart.css">
 </head>
 <body>
@@ -22,46 +23,152 @@
     </header>
 
     <div class="container">
-        <div class="page-content">
-            <h1>Shopping Cart</h1>
-            <table class="cart-table">
-                <thead>
-                    <tr>
-                        <th>Product</th>
-                        <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td data-label="Product">Wireless Earbuds</td>
-                        <td data-label="Price">Rs. 1,299</td>
-                        <td data-label="Quantity">1</td>
-                        <td data-label="Total">Rs. 1,299</td>
-                    </tr>
-                    <tr>
-                        <td data-label="Product">Smart Watch</td>
-                        <td data-label="Price">Rs. 999</td>
-                        <td data-label="Quantity">2</td>
-                        <td data-label="Total">Rs. 1,998</td>
-                    </tr>
-                    <tr>
-                        <td data-label="Product">Laptop</td>
-                        <td data-label="Price">Rs. 44,000</td>
-                        <td data-label="Quantity">1</td>
-                        <td data-label="Total">Rs. 44,000</td>
-                    </tr>
-                </tbody>
-            </table>
+        <h1 class="page-title">Shopping Cart</h1>
+        
+        <div class="cart-layout">
+            <!-- Cart Items List -->
+            <div class="cart-items">
+                <!-- Product 1 -->
+                <div class="cart-item">
+                    <div class="item-visual">
+                        <img src="../images/earbuds.png" alt="Wireless Earbuds" class="item-img">
+                    </div>
+                    <div class="item-details">
+                        <h3>Wireless Earbuds</h3>
+                        <p class="item-category">Electronics</p>
+                        <h4 class="item-price">Rs. 1,299</h4>
+                    </div>
+                    <div class="item-actions">
+                        <div class="quantity-control">
+                            <button class="qty-btn" aria-label="Decrease quantity"><i class="fas fa-minus"></i></button>
+                            <input type="number" value="1" min="1" readonly>
+                            <button class="qty-btn" aria-label="Increase quantity"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <p class="item-total">Rs. 1,299</p>
+
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="cart-item">
+                    <div class="item-visual">
+                        <img src="../images/smartwatch.webp" alt="Smart Watch" class="item-img">
+                    </div>
+                    <div class="item-details">
+                        <h3>Smart Watch</h3>
+                        <p class="item-category">Wearable</p>
+                        <h4 class="item-price">Rs. 999</h4>
+                    </div>
+                    <div class="item-actions">
+                        <div class="quantity-control">
+                            <button class="qty-btn" aria-label="Decrease quantity"><i class="fas fa-minus"></i></button>
+                            <input type="number" value="2" min="1" readonly>
+                            <button class="qty-btn" aria-label="Increase quantity"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <p class="item-total">Rs. 1,998</p>
+
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="cart-item">
+                    <div class="item-visual">
+                        <img src="../images/laptop.webp" alt="Laptop" class="item-img">
+                    </div>
+                    <div class="item-details">
+                        <h3>Laptop</h3>
+                        <p class="item-category">Computers</p>
+                        <h4 class="item-price">Rs. 44,000</h4>
+                    </div>
+                    <div class="item-actions">
+                        <div class="quantity-control">
+                            <button class="qty-btn" aria-label="Decrease quantity"><i class="fas fa-minus"></i></button>
+                            <input type="number" value="1" min="1" readonly>
+                            <button class="qty-btn" aria-label="Increase quantity"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <p class="item-total">Rs. 44,000</p>
+
+                    </div>
+                </div>
+            </div>
             
+            <!-- Cart Summary Panel -->
             <div class="cart-summary">
-                <h3>Price Summary</h3>
-                <p><span>Subtotal</span> <span>Rs. 47,297</span></p>
-                <p><span>Shipping</span> <span>Rs. 10.00</span></p>
-                <p><span>Tax (Est.)</span> <span>Rs. 43.20</span></p>
-                <h3><span>Total</span> <span>Rs. 47,350.20</span></h3>
-                <a href="./checkout.html" class="btn">Proceed to Checkout</a>
+                <h3>Order Summary</h3>
+                <div class="summary-details">
+                    <p><span>Subtotal</span> <span>Rs. 47,297</span></p>
+                    <p><span>Shipping</span> <span>Rs. 10.00</span></p>
+                    <p><span>Tax (Est.)</span> <span>Rs. 43.20</span></p>
+                </div>
+                <div class="summary-total">
+                    <h3><span>Total</span> <span>Rs. 47,350.20</span></h3>
+                    <p class="total-note">Values are estimated</p>
+                </div>
+                <a href="#checkout-modal" class="btn btn-block">Proceed to Checkout <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal (Pure CSS Target) -->
+    <div id="checkout-modal" class="modal-overlay">
+        <a href="#" class="modal-close-area"></a>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Checkout</h2>
+                <a href="#" class="close-btn">&times;</a>
+            </div>
+            <div class="modal-body">
+                <form action="#" class="checkout-form">
+                    <div class="form-section">
+                        <h4>Contact Info</h4>
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" placeholder="John Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" placeholder="john@example.com" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-section">
+                        <h4>Shipping Address</h4>
+                        <div class="form-group">
+                            <label>Address</label>
+                            <input type="text" placeholder="123 Street Name" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>City</label>
+                                <input type="text" placeholder="City" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Postal Code</label>
+                                <input type="text" placeholder="000000" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h4>Payment</h4>
+                        <div class="form-group">
+                            <label>Card Number</label>
+                            <input type="text" placeholder="0000 0000 0000 0000" required>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Expiry</label>
+                                <input type="text" placeholder="MM/YY" required>
+                            </div>
+                            <div class="form-group">
+                                <label>CVV</label>
+                                <input type="text" placeholder="123" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-block">Place Order (Rs. 47,350.20)</button>
+                </form>
             </div>
         </div>
     </div>
