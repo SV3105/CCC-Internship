@@ -10,15 +10,23 @@ include '../includes/products_data.php';
 // 1. Capture Filter Inputs
 $selected_categories = isset($_GET['category']) ? (array)$_GET['category'] : [];
 $selected_brands = isset($_GET['brand']) ? (array)$_GET['brand'] : [];
+$search_query = isset($_GET['search']) ? trim($_GET['search']) : '';
 
 // 2. Filter Logic
-$filtered_products = array_filter($products, function($product) use ($selected_categories, $selected_brands) {
+$filtered_products = array_filter($products, function($product) use ($selected_categories, $selected_brands, $search_query) {
     // Check Category
     $cat_match = empty($selected_categories) || in_array($product['category'], $selected_categories);
     // Check Brand
     $brand_match = empty($selected_brands) || in_array($product['brand'], $selected_brands);
+    // Check Search
+    $search_match = true;
+    if ($search_query !== '') {
+        $search_match = stripos($product['title'], $search_query) !== false || 
+                       stripos($product['category'], $search_query) !== false || 
+                       stripos($product['brand'], $search_query) !== false;
+    }
     
-    return $cat_match && $brand_match;
+    return $cat_match && $brand_match && $search_match;
 });
 
 // 3. Render Function (HTML Output for Grid Items)
@@ -53,7 +61,7 @@ include '../includes/header.php';
 
     <div class="container">
         <div class="page-content layout-transparent">
-            <h1 class="text-dark mb-4">Explore Collection</h1>
+            <h1 class="text-dark mb-4">Explore Collection <span id="headerCount" style="font-size: 1.5rem; color: #888; font-weight: 400;">(<?php echo count($filtered_products); ?>)</span></h1>
             
             <div class="shop-layout">
                 <!-- Filters -->
@@ -93,8 +101,8 @@ include '../includes/header.php';
 
                 <!-- Products Grid -->
                 <div style="flex: 1;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding: 0 0.5rem;">
-                        <span style="color: #666; font-size: 0.95rem;">Showing <strong id="productCount"><?php echo count($filtered_products); ?></strong> products</span>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding: 0.5rem 1rem; background: #fff; border-radius: 12px; border: 1px solid #eee; box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+                        <span style="color: #444; font-weight: 500;">Showing <strong id="productCount" style="color: var(--accent-color);"><?php echo count($filtered_products); ?></strong> matching products</span>
                     </div>
                     <div class="products-grid" id="productGrid">
                     <?php 
@@ -130,9 +138,10 @@ include '../includes/header.php';
                         .then(response => response.text())
                         .then(html => {
                             grid.innerHTML = html;
-                            // Update count (count items in the returned html or just recount visible cards)
+                            // Update count 
                             const count = grid.querySelectorAll('.product-card').length;
                             document.getElementById('productCount').textContent = count;
+                            document.getElementById('headerCount').textContent = `(${count})`;
                         })
                         .catch(error => console.error('Error:', error));
                 });
