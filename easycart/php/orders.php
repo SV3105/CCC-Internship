@@ -3,7 +3,8 @@ $title = "My Orders - EasyCart";
 $base_path = "../";
 $page = "orders";
 $extra_css = "orders.css";
-include '../includes/products_data.php';
+include '../data/products_data.php';
+
 include '../includes/header.php';
 ?>
 

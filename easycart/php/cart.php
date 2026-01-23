@@ -4,7 +4,8 @@ $title = "Shopping Cart - EasyCart";
 $base_path = "../";
 $page = "cart";
 $extra_css = "cart.css";
-include '../includes/products_data.php';
+include '../data/products_data.php';
+
 
 // --- CART LOGIC ---
 
@@ -35,7 +36,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         if (isset($_SESSION['cart'][$p_id])) {
             unset($_SESSION['cart'][$p_id]);
         }
+    } elseif ($_POST['action'] === 'clear') {
+        $_SESSION['cart'] = [];
     }
+
 
     // Check for AJAX/Fetch request
     if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
@@ -53,7 +57,16 @@ include '../includes/header.php';
 ?>
 
     <div class="container">
-        <h1 class="page-title">Shopping Cart</h1>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h1 class="page-title" style="margin: 0;">Shopping Cart</h1>
+            <?php if (!empty($_SESSION['cart'])): ?>
+            <button onclick="clearCart()" class="btn-clear-cart">
+                <i class="fas fa-trash-alt"></i> Clear Cart
+            </button>
+            <?php endif; ?>
+        </div>
+
+
         
         <div class="cart-layout">
             <!-- Cart Items List -->
@@ -62,6 +75,7 @@ include '../includes/header.php';
                 $subtotal = 0;
                 $shipping = 0; 
                 $cart_empty = true;
+
 
                 if (!empty($_SESSION['cart'])) {
                     $cart_empty = false;

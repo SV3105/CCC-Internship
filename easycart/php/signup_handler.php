@@ -1,6 +1,7 @@
 <?php
 // easycart/php/signup_handler.php
-include '../includes/users_data.php';
+include '../data/users_data.php';
+
 
 header('Content-Type: application/json');
 
@@ -36,7 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Save back to users_data.php
     $content = "<?php\n\$users = " . var_export($users, true) . ";\n?>";
     
-    if (file_put_contents('../includes/users_data.php', $content)) {
+    if (file_put_contents('../data/users_data.php', $content)) {
+
         echo json_encode(['success' => true]);
     } else {
         echo json_encode(['success' => false, 'message' => 'Failed to save data.']);

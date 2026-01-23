@@ -73,4 +73,64 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
+// --- Quick Add To Cart Logic ---
+function updateQuickQty(productId, change, isHome = false) {
+    const card = document.querySelector(`.product-card[data-id="${productId}"]`);
+    if (!card) return;
+
+    const container = card.querySelector('.quick-add-container');
+    const display = container.querySelector('.qty-display');
+    let currentQty = display ? parseInt(display.textContent) : 0;
+    let newQty = currentQty + change;
+    
+    if (newQty < 0) newQty = 0;
+
+    // Use correct path based on page
+    const ajaxPath = isHome ? 'php/cart.php' : 'cart.php';
+
+    // Optimistic UI Update
+    if (newQty > 0) {
+        container.innerHTML = `
+            <div class="qty-selector">
+                <button class="btn-qty btn-minus" onclick="updateQuickQty(${productId}, -1, ${isHome})">-</button>
+                <span class="qty-display">${newQty}</span>
+                <button class="btn-qty btn-plus" onclick="updateQuickQty(${productId}, 1, ${isHome})">+</button>
+            </div>
+        `;
+    } else {
+        container.innerHTML = `
+            <button class="btn btn-quick-add" onclick="updateQuickQty(${productId}, 1, ${isHome})">
+                <i class="fas fa-plus"></i> Add to Cart
+            </button>
+        `;
+    }
+
+    // Server Sync
+    const formData = new FormData();
+    formData.append('action', 'update_qty');
+    formData.append('product_id', productId);
+    formData.append('change', change);
+
+    fetch(ajaxPath, {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (!data.success) {
+            alert('Failed to update cart. Please try again.');
+            location.reload(); 
+        }
+    })
+    .catch(err => {
+        console.error('Error:', err);
+        location.reload();
+    });
+}
+
+
+
 

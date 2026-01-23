@@ -2,7 +2,8 @@
 $title = "EasyCart India - The Big Sale is Live!";
 $base_path = "./";
 $page = "home";
-include './includes/products_data.php';
+include './data/products_data.php';
+
 include './includes/header.php'; 
 ?>
 
@@ -71,10 +72,14 @@ include './includes/header.php';
             <section class="section section-blockbuster">
                 <h2>Blockbuster Deals</h2>
                 <div class="products-grid">
-                    <?php foreach($products as $product): ?>
-                        <?php if(isset($product['featured']) && $product['featured']): ?>
-                        <div class="product-card">
-                            <div class="product-image">
+                    <?php 
+                    $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
+                    foreach($products as $product): ?>
+                        <?php if(isset($product['featured']) && $product['featured']): 
+                            $qty = isset($cart[$product['id']]) ? (int)$cart[$product['id']] : 0;
+                        ?>
+                        <div class="product-card" data-id="<?php echo $product['id']; ?>">
+                            <div class="product-image-container">
                                 <img src="./images/<?php echo $product['image']; ?>" alt="<?php echo $product['title']; ?>">
                             </div>
                             <h3><?php echo $product['title']; ?></h3>
@@ -83,10 +88,27 @@ include './includes/header.php';
                                 <span class="old-price">₹<?php echo $product['old_price']; ?></span>
                                 <?php endif; ?>
                             </p>
-                            <a href="./php/<?php echo $product['url']; ?>" class="btn">View Details</a>
+
+                            <div class="quick-add-container">
+                                <?php if ($qty > 0): ?>
+                                    <div class="qty-selector">
+                                        <button class="btn-qty btn-minus" onclick="updateQuickQty(<?php echo $product['id']; ?>, -1, true)">-</button>
+                                        <span class="qty-display"><?php echo $qty; ?></span>
+                                        <button class="btn-qty btn-plus" onclick="updateQuickQty(<?php echo $product['id']; ?>, 1, true)">+</button>
+                                    </div>
+                                <?php else: ?>
+                                    <button class="btn btn-quick-add" onclick="updateQuickQty(<?php echo $product['id']; ?>, 1, true)">
+                                        <i class="fas fa-plus"></i> Add to Cart
+                                    </button>
+                                <?php endif; ?>
+                            </div>
+
+                            <a href="./php/<?php echo $product['url']; ?>" class="btn-view-details-pill">View Details</a>
+
                         </div>
                         <?php endif; ?>
                     <?php endforeach; ?>
+
                 </div>
             </section>
 
@@ -124,4 +146,5 @@ include './includes/header.php';
         </div>
     </div>
 
+    <script src="./js/products.js"></script>
 <?php include './includes/footer.php'; ?>

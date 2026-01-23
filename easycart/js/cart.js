@@ -69,6 +69,27 @@ function removeCartItem(productId) {
     .catch(err => console.error('Error removing item:', err));
 }
 
+function clearCart() {
+    if (!confirm('Are you sure you want to empty your entire cart?')) return;
+
+    const formData = new FormData();
+    formData.append('action', 'clear');
+
+    fetch('cart.php', {
+        method: 'POST',
+        body: formData,
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();
+        }
+    })
+    .catch(err => console.error('Error clearing cart:', err));
+}
+
+
 function updateSummary() {
     let subtotal = 0;
     const items = document.querySelectorAll('.cart-item');

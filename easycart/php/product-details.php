@@ -4,7 +4,8 @@ $title = "Product Details - EasyCart";
 $base_path = "../";
 $page = "products";
 $extra_css = "product-details.css?v=" . time();
-include '../includes/products_data.php';
+include '../data/products_data.php';
+
 
 // Logic to find product
 $current_product = null;

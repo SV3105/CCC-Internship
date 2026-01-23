@@ -1,9 +1,12 @@
 <?php
+session_start();
+
 $title = "Shop - EasyCart India";
 $base_path = "../";
 $page = "products";
 $extra_css = "products.css";
-include '../includes/products_data.php';
+include '../data/products_data.php';
+
 
 // --- SERVER SIDE LOGIC ---
 
@@ -75,13 +78,35 @@ $filtered_products = array_filter($products, function($product) use ($selected_c
 
 // 3. Render Function (HTML Output for Grid Items)
 function renderProductsGrid($items) {
+    $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
+    
     if(!empty($items)):
-        foreach($items as $product): ?>
-    <div class="product-card">
-        <img src="../images/<?php echo $product['image']; ?>" alt="<?php echo $product['title']; ?>" class="<?php echo isset($product['css_class']) ? $product['css_class'] : ''; ?>">
+        foreach($items as $product): 
+            $qty = isset($cart[$product['id']]) ? (int)$cart[$product['id']] : 0;
+            ?>
+    <div class="product-card" data-id="<?php echo $product['id']; ?>">
+        <div class="product-image-container">
+            <img src="../images/<?php echo $product['image']; ?>" alt="<?php echo $product['title']; ?>" class="<?php echo isset($product['css_class']) ? $product['css_class'] : ''; ?>">
+        </div>
         <h3><?php echo $product['title']; ?></h3>
         <p class="price">₹<?php echo $product['price']; ?></p>
-        <a href="./<?php echo $product['url']; ?>" class="btn">View Details</a>
+        
+        <div class="quick-add-container">
+            <?php if ($qty > 0): ?>
+                <div class="qty-selector">
+                    <button class="btn-qty btn-minus" onclick="updateQuickQty(<?php echo $product['id']; ?>, -1)">-</button>
+                    <span class="qty-display"><?php echo $qty; ?></span>
+                    <button class="btn-qty btn-plus" onclick="updateQuickQty(<?php echo $product['id']; ?>, 1)">+</button>
+                </div>
+            <?php else: ?>
+                <button class="btn btn-quick-add" onclick="updateQuickQty(<?php echo $product['id']; ?>, 1)">
+                    <i class="fas fa-plus"></i> Add to Cart
+                </button>
+            <?php endif; ?>
+        </div>
+
+        <a href="./<?php echo $product['url']; ?>" class="btn-view-details">View Details <i class="fas fa-chevron-right"></i></a>
+
     </div>
     <?php endforeach; 
     else: ?>

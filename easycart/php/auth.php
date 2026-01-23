@@ -4,7 +4,8 @@ $base_path = "../";
 $page = "auth";
 $extra_css = "auth.css";
 include '../includes/header.php';
-include '../includes/users_data.php';
+include '../data/users_data.php';
+
 
 // Prepare data for JS validation
 $users_json = json_encode($users);
