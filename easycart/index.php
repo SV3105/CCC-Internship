@@ -83,7 +83,7 @@ include './includes/header.php';
                                 <span class="old-price">₹<?php echo $product['old_price']; ?></span>
                                 <?php endif; ?>
                             </p>
-                            <a href="./php/<?php echo $product['url']; ?>" class="btn">Add to Cart</a>
+                            <a href="./php/<?php echo $product['url']; ?>" class="btn">View Details</a>
                         </div>
                         <?php endif; ?>
                     <?php endforeach; ?>

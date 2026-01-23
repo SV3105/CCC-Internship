@@ -33,8 +33,28 @@ include '../includes/header.php';
     <div class="container">
       <div class="page-content layout-transparent product-detail-container">
         <div class="product-detail">
-            <div class="product-image">
-                <img src="../images/<?php echo $current_product['image']; ?>" alt="<?php echo $current_product['title']; ?>" class="<?php echo isset($current_product['css_class']) ? $current_product['css_class'] : ''; ?>">
+            <div class="product-image-section">
+                <div class="main-image">
+                    <?php if(isset($current_product['gallery']) && count($current_product['gallery']) > 1): ?>
+                    <button class="nav-arrow prev" onclick="changeImage(-1)"><i class="fas fa-chevron-left"></i></button>
+                    <?php endif; ?>
+
+                    <img id="mainProductImg" src="../images/<?php echo $current_product['image']; ?>" alt="<?php echo $current_product['title']; ?>" class="<?php echo isset($current_product['css_class']) ? $current_product['css_class'] : ''; ?>">
+
+                    <?php if(isset($current_product['gallery']) && count($current_product['gallery']) > 1): ?>
+                    <button class="nav-arrow next" onclick="changeImage(1)"><i class="fas fa-chevron-right"></i></button>
+                    <?php endif; ?>
+                </div>
+                
+                <?php if(isset($current_product['gallery'])): ?>
+                <div class="thumbnail-gallery">
+                    <?php foreach($current_product['gallery'] as $img): ?>
+                    <div class="thumb <?php echo ($img == $current_product['image']) ? 'active' : ''; ?>" onclick="switchImage(this, '../images/<?php echo $img; ?>')">
+                        <img src="../images/<?php echo $img; ?>" alt="Thumbnail">
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
             </div>
             <div class="product-info">
             <h2><?php echo $current_product['title']; ?></h2>
@@ -91,4 +111,51 @@ include '../includes/header.php';
       </div>
     </div>
 
+    <script>
+        // Pass gallery data to JS
+        const gallery = <?php echo isset($current_product['gallery']) ? json_encode($current_product['gallery']) : "[]"; ?>;
+        const basePath = "../images/";
+        let currentIndex = gallery.indexOf("<?php echo $current_product['image']; ?>");
+
+        function switchImage(thumb, src) {
+            const mainImg = document.getElementById('mainProductImg');
+            
+            // Add a quick fade out
+            mainImg.style.opacity = '0.5';
+            
+            setTimeout(() => {
+                const fileName = src.split('/').pop();
+                mainImg.src = src;
+                mainImg.style.opacity = '1';
+                
+                // Update currentIndex
+                currentIndex = gallery.indexOf(fileName);
+                
+                // Update active state
+                document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+                if (thumb) {
+                    thumb.classList.add('active');
+                } else {
+                    // Find thumb by src if thumb not provided (for arrows)
+                    const thumbs = document.querySelectorAll('.thumb img');
+                    thumbs.forEach(tImg => {
+                        if (tImg.src.includes(fileName)) {
+                            tImg.parentElement.classList.add('active');
+                        }
+                    });
+                }
+            }, 150);
+        }
+
+        function changeImage(direction) {
+            if (gallery.length === 0) return;
+            
+            currentIndex += direction;
+            if (currentIndex >= gallery.length) currentIndex = 0;
+            if (currentIndex < 0) currentIndex = gallery.length - 1;
+            
+            const nextSrc = basePath + gallery[currentIndex];
+            switchImage(null, nextSrc);
+        }
+    </script>
 <?php include '../includes/footer.php'; ?>

@@ -19,7 +19,8 @@ $products = [
             'Up to 42 hours of total playback time',
             'IPX4 Water and Sweat Resistance',
             'ENx Technology for clear calls'
-        ]
+        ],
+        'gallery' => ['earbuds.png', 'earbuds1.png', 'earbuds2.png', 'earbuds3.png']
     ],
     [
         'id' => 2,
@@ -40,7 +41,8 @@ $products = [
             '10-day Battery Life',
             '5ATM Waterproof',
             'Cloud-based Watch Faces'
-        ]
+        ],
+        'gallery' => ['smartwatch.png', 'smartwatch1.png', 'smartwatch2.png', 'smartwatch3.png']
     ],
     [
         'id' => 3,
@@ -61,7 +63,8 @@ $products = [
             '15.6" FHD IPS Micro-Edge Display',
             'Intel Iris Xe Graphics',
             'Fast Charge: 0 to 50% in 45 mins'
-        ]
+        ],
+         'gallery' => ['laptop.png', 'laptop1.png', 'laptop2.png']
     ],
     [
         'id' => 4,
@@ -82,7 +85,8 @@ $products = [
             'Adjustable Earcups',
             'Dual Mode: Bluetooth & AUX',
             'Integrated Controls and Voice Assistant'
-        ]
+        ],
+        'gallery' => ['headphones.png', 'headphones1.png', 'headphones2.png', 'headphones3.png']
     ],
     [
         'id' => 5,
