@@ -4,6 +4,7 @@ $base_path = "../";
 $page = "orders";
 $extra_css = "orders.css";
 include '../data/products_data.php';
+include '../data/orders_data.php';
 
 include '../includes/header.php';
 ?>
@@ -63,27 +64,36 @@ include '../includes/header.php';
                             <?php foreach($order['items'] as $item): ?>
                                 <div class="order-item">
                                     <i class="fas fa-shopping-bag"></i>
-                                    <span class="item-name"><?php echo $item; ?></span>
+                                    <span class="item-name"><?php echo $item['title']; ?> (x<?php echo $item['qty']; ?>)</span>
                                 </div>
                             <?php endforeach; ?>
                         </div>
                     </div>
 
                     <div class="order-footer">
+                        <?php 
+                            $order_total = 0;
+                            foreach($order['items'] as $item) {
+                                $price = (float)str_replace(',', '', $item['price']);
+                                $order_total += $price * $item['qty'];
+                            }
+                            $tax = $order_total * 0.18;
+                            $grand_total = $order_total + $tax;
+                        ?>
                         <div>
                             <span class="order-total-label">Total Amount:</span>
-                            <span class="order-total-amount">₹<?php echo $order['total']; ?></span>
+                            <span class="order-total-amount">₹<?php echo number_format($grand_total); ?></span>
                         </div>
                         <div class="order-actions">
-                            <a href="https://wa.me/918001234567?text=I%20need%20help%20with%20Order%20%23<?php echo $order['id']; ?>" target="_blank" class="btn-order-action btn-order-help" style="text-decoration: none;">
-                                <i class="fab fa-whatsapp"></i> Chat on WhatsApp
+                            <a href="invoice.php?id=<?php echo $order['id']; ?>" target="_blank" class="btn-order-action btn-order-help" style="text-decoration: none;">
+                                <i class="fas fa-file-invoice"></i> Download Invoice
                             </a>
                             <?php 
                                 // Find product IDs for "Buy Again"
                                 $item_ids = [];
-                                foreach($order['items'] as $item_title) {
+                                foreach($order['items'] as $order_item) {
                                     foreach($products as $p) {
-                                        if ($p['title'] === $item_title) {
+                                        if ($p['title'] === $order_item['title']) {
                                             $item_ids[] = $p['id'];
                                             break;
                                         }

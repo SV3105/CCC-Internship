@@ -240,31 +240,4 @@ $categories = [
     ]
 ];
 
-// Mock Order Data
-$orders = [
-    [
-        'id' => '12345',
-        'date' => 'January 15, 2026',
-        'status' => 'Delivered',
-        'status_code' => 'delivered',
-        'items' => ['boAt Airdopes 141', 'Noise ColorFit Pro'],
-        'total' => '2,830'
-    ],
-    [
-        'id' => '12344',
-        'date' => 'January 10, 2026',
-        'status' => 'In Transit',
-        'status_code' => 'transit',
-        'items' => ['fabindia', 'boAt Rockerz 450'],
-        'total' => '3,656'
-    ],
-    [
-        'id' => '12343',
-        'date' => 'January 5, 2026',
-        'status' => 'Processing',
-        'status_code' => 'processing',
-        'items' => ['VIP Trolley', 'Samsung Galaxy M34'],
-        'total' => '24,778'
-    ]
-];
 ?>
