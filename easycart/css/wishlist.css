@@ -1,0 +1,83 @@
+.wishlist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.wishlist-card {
+    position: relative;
+    padding-top: 3rem;
+}
+
+.btn-wishlist-remove {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: #fee2e2;
+    color: #ef4444;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    z-index: 5;
+}
+
+.btn-wishlist-remove:hover {
+    background: #ef4444;
+    color: white;
+    transform: rotate(90deg);
+}
+
+.wishlist-actions {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.wishlist-actions .btn-quick-add {
+    font-size: 0.9rem;
+    padding: 0.6rem;
+}
+
+/* Heart Icon Overlays on Product Cards */
+.btn-wishlist-toggle {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: white;
+    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    z-index: 5;
+}
+
+.btn-wishlist-toggle i {
+    color: #cbd5e1;
+    font-size: 1.1rem;
+}
+
+.btn-wishlist-toggle:hover {
+    transform: scale(1.1);
+}
+
+.btn-wishlist-toggle i.active-wishlist {
+    color: #ef4444;
+}
+
+.btn-wishlist-toggle:hover i:not(.active-wishlist) {
+    color: #fca5a5;
+}

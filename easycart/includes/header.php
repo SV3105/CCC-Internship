@@ -10,6 +10,9 @@
     <?php if(isset($extra_css)): ?>
     <link rel="stylesheet" href="<?php echo $base_path; ?>css/<?php echo $extra_css; ?>?v=<?php echo $v; ?>">
     <?php endif; ?>
+    <?php if(isset($extra_css_2)): ?>
+    <link rel="stylesheet" href="<?php echo $base_path; ?>css/<?php echo $extra_css_2; ?>?v=<?php echo $v; ?>">
+    <?php endif; ?>
 </head>
 <body>
     <header>
@@ -25,6 +28,9 @@
                 <li><a href="<?php echo $base_path; ?>php/cart.php" class="<?php echo ($page === 'cart') ? 'active-nav' : ''; ?>">Cart <i class="fas fa-shopping-cart"></i></a></li>
                 <li><a href="<?php echo $base_path; ?>php/auth.php" class="<?php echo ($page === 'auth') ? 'active-nav' : ''; ?>">Login / Sign Up</a></li>
                 <li><a href="<?php echo $base_path; ?>php/orders.php" class="<?php echo ($page === 'orders') ? 'active-nav' : ''; ?>">Orders</a></li>
+                <li><a href="<?php echo $base_path; ?>php/wishlist.php" class="<?php echo ($page === 'wishlist') ? 'active-nav' : ''; ?>"><i class="far fa-heart"></i> Wishlist</a></li>
+                <li><a href="<?php echo $base_path; ?>php/profile.php" class="nav-profile-link <?php echo ($page === 'profile') ? 'active-nav' : ''; ?>" title="My Profile"><i class="fas fa-user-circle"></i></a></li>
             </ul>
         </nav>
     </header>
+    <script src="<?php echo $base_path; ?>js/wishlist.js"></script>

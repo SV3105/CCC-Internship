@@ -79,6 +79,12 @@ include './includes/header.php';
                             $qty = isset($cart[$product['id']]) ? (int)$cart[$product['id']] : 0;
                         ?>
                         <div class="product-card" data-id="<?php echo $product['id']; ?>">
+                            <?php 
+                            $in_wishlist = isset($_SESSION['wishlist']) && in_array($product['id'], $_SESSION['wishlist']);
+                            ?>
+                            <button class="btn-wishlist-toggle" onclick="toggleWishlist(<?php echo $product['id']; ?>, this, true)">
+                                <i class="<?php echo $in_wishlist ? 'fas active-wishlist' : 'far'; ?> fa-heart"></i>
+                            </button>
                             <div class="product-image-container">
                                 <img src="./images/<?php echo $product['image']; ?>" alt="<?php echo $product['title']; ?>">
                             </div>
@@ -146,5 +152,6 @@ include './includes/header.php';
         </div>
     </div>
 
+    <link rel="stylesheet" href="./css/wishlist.css">
     <script src="./js/products.js"></script>
 <?php include './includes/footer.php'; ?>

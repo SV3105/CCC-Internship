@@ -79,6 +79,7 @@ function updateQuickQty(productId, change, isHome = false) {
     if (!card) return;
 
     const container = card.querySelector('.quick-add-container');
+    if (!container) return; // Silent return if container is missing
     const display = container.querySelector('.qty-display');
     let currentQty = display ? parseInt(display.textContent) : 0;
     let newQty = currentQty + change;

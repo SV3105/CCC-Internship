@@ -85,6 +85,12 @@ function renderProductsGrid($items) {
             $qty = isset($cart[$product['id']]) ? (int)$cart[$product['id']] : 0;
             ?>
     <div class="product-card" data-id="<?php echo $product['id']; ?>">
+        <?php 
+        $in_wishlist = isset($_SESSION['wishlist']) && in_array($product['id'], $_SESSION['wishlist']);
+        ?>
+        <button class="btn-wishlist-toggle" onclick="toggleWishlist(<?php echo $product['id']; ?>, this)">
+            <i class="<?php echo $in_wishlist ? 'fas active-wishlist' : 'far'; ?> fa-heart"></i>
+        </button>
         <div class="product-image-container">
             <img src="../images/<?php echo $product['image']; ?>" alt="<?php echo $product['title']; ?>">
         </div>
@@ -127,6 +133,7 @@ if(isset($_GET['ajax']) && $_GET['ajax'] == '1') {
 // --- NORMAL PAGE LOAD ---
 include '../includes/header.php';
 ?>
+<link rel="stylesheet" href="../css/wishlist.css">
 
     <div class="container">
         <div class="page-content layout-transparent">

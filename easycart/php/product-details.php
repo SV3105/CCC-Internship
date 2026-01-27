@@ -4,6 +4,7 @@ $title = "Product Details - EasyCart";
 $base_path = "../";
 $page = "products";
 $extra_css = "product-details.css?v=" . time();
+$extra_css_2 = "wishlist.css";
 include '../data/products_data.php';
 
 
@@ -105,6 +106,14 @@ include '../includes/header.php';
                     <input type="hidden" name="change" value="1">
                     <button type="submit" class="btn btn-large">Add to Cart</button>
                 </form>
+                
+                <?php 
+                $in_wishlist = isset($_SESSION['wishlist']) && in_array($current_product['id'], $_SESSION['wishlist']);
+                ?>
+                <button class="btn btn-large btn-outline" style="margin-top: 1rem; width: 100%; display: flex; align-items: center; justify-content: center; gap: 0.5rem;" onclick="toggleWishlist(<?php echo $current_product['id']; ?>, this)">
+                    <i class="<?php echo $in_wishlist ? 'fas active-wishlist' : 'far'; ?> fa-heart"></i>
+                    <span class="wishlist-text"><?php echo $in_wishlist ? 'In Wishlist' : 'Add to Wishlist'; ?></span>
+                </button>
             </div>
             </div>
         </div>

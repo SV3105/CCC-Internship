@@ -271,6 +271,22 @@ nav a:hover::after {
   width: 100%;
 }
 
+.nav-profile-link {
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+    color: var(--text-dark);
+    transition: color 0.3s ease;
+}
+
+.nav-profile-link:hover {
+    color: var(--primary-color) !important;
+}
+
+.nav-profile-link::after {
+    display: none !important; /* Remove the underline for the icon */
+}
+
 /* --- New Split Hero Section --- */
 .hero-split {
   display: flex;
@@ -426,7 +442,7 @@ nav a:hover::after {
 
 /* Global Product Card Styles */
 .product-card {
-    min-height: 480px; 
+    min-height: 350px; 
     height: auto;
     display: flex;
     flex-direction: column;
