@@ -163,7 +163,6 @@ $products = [
         'featured' => false,
         'rating' => 4.8,
         'reviews' => 340,
-        'css_class' => 'filter-sepia',
         'description' => 'A classic timepiece for the modern man. The Titan Neo features a sleek dial and leather strap, making it suitable for both formal and casual occasions.',
         'features' => [
             'Analog Display with Date Function',

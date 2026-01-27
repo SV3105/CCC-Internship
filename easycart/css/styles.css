@@ -416,22 +416,22 @@ nav a:hover::after {
 
 /* Products Grid */
 .products-grid {
-  display: grid;
+  display: grid !important;
   grid-template-columns: repeat(
-    auto-fit,
-    minmax(220px, 1fr)
-  ); /* Increased min-width for better proportions */
-  gap: 1rem; /* Increased gap */
+    auto-fill,
+    minmax(250px, 1fr)
+  ) !important; /* Force auto-fill to prevent stretching */
+  gap: 2rem !important;
 }
 
 /* Global Product Card Styles */
 .product-card {
-    min-height: 480px; /* Changed from fixed height to min-height */
+    min-height: 480px; 
     height: auto;
     display: flex;
     flex-direction: column;
 
-    justify-content: flex-start; /* Changed from space-between for better alignment */
+    justify-content: flex-start; 
     padding: 1.5rem;
     position: relative;
     overflow: hidden;
@@ -440,7 +440,6 @@ nav a:hover::after {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     border: 1px solid rgba(0, 0, 0, 0.03);
-    width: 100%;
 }
 
 
@@ -568,7 +567,7 @@ nav a:hover::after {
 .categories-grid,
 .brands-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   gap: 2rem;
 }
 

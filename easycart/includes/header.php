@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo isset($title) ? $title : 'EasyCart India'; ?></title>
-    <link rel="stylesheet" href="<?php echo $base_path; ?>css/styles.css">
+    <?php $v = time(); ?>
+    <link rel="stylesheet" href="<?php echo $base_path; ?>css/styles.css?v=<?php echo $v; ?>">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <?php if(isset($extra_css)): ?>
-    <link rel="stylesheet" href="<?php echo $base_path; ?>css/<?php echo $extra_css; ?>">
+    <link rel="stylesheet" href="<?php echo $base_path; ?>css/<?php echo $extra_css; ?>?v=<?php echo $v; ?>">
     <?php endif; ?>
 </head>
 <body>

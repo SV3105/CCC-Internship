@@ -86,7 +86,7 @@ function renderProductsGrid($items) {
             ?>
     <div class="product-card" data-id="<?php echo $product['id']; ?>">
         <div class="product-image-container">
-            <img src="../images/<?php echo $product['image']; ?>" alt="<?php echo $product['title']; ?>" class="<?php echo isset($product['css_class']) ? $product['css_class'] : ''; ?>">
+            <img src="../images/<?php echo $product['image']; ?>" alt="<?php echo $product['title']; ?>">
         </div>
         <h3><?php echo $product['title']; ?></h3>
         <p class="price">₹<?php echo $product['price']; ?></p>

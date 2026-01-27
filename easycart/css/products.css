@@ -8,6 +8,18 @@
   align-items: start;
 }
 
+/* Products Grid Fix */
+.products-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)) !important;
+  gap: 1.5rem !important;
+}
+
+.product-card {
+  width: 100% !important;
+  max-width: 320px !important;
+}
+
 /* Sidebar Styling */
 .filter-sidebar {
   background: rgba(255, 255, 255, 0.8);
@@ -204,10 +216,6 @@
 .mb-4 { margin-bottom: 1.5rem; }
 .w-100 { width: 100%; }
 
-/* Image Filters for Variety */
-.filter-sepia { filter: sepia(0.3); }
-.filter-hue-45 { filter: hue-rotate(45deg); }
-.filter-hue-90 { filter: hue-rotate(90deg); }
 
 .active-nav {
   color: var(--primary-color) !important;

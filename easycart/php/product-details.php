@@ -39,7 +39,7 @@ include '../includes/header.php';
                     <button class="nav-arrow prev" onclick="callChangeImage(-1)"><i class="fas fa-chevron-left"></i></button>
 
 
-                    <img id="mainProductImg" src="../images/<?php echo $current_product['image']; ?>" alt="<?php echo $current_product['title']; ?>" class="<?php echo isset($current_product['css_class']) ? $current_product['css_class'] : ''; ?>">
+                    <img id="mainProductImg" src="../images/<?php echo $current_product['image']; ?>" alt="<?php echo $current_product['title']; ?>">
 
                     <button class="nav-arrow next" onclick="callChangeImage(1)"><i class="fas fa-chevron-right"></i></button>
 
