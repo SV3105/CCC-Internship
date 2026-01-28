@@ -1,5 +1,6 @@
 
 <?php
+//task - PHP-001
 $greeting = 'Hello, the year is ';
 
 $year = 2026;
@@ -13,6 +14,7 @@ echo $isActive;
 ?>
 
 <?php 
+//task -PHP-002
 $person = ["name" => "xyz", "Age" => 34, "Skills" => ["HTML", "CSS", "JS", "PHP"]];
 echo '<br />';
 print_r($person);
