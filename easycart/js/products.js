@@ -123,7 +123,7 @@ function updateQuickQty(productId, change, isHome = false) {
     .then(data => {
         if (data.success) {
             // Sync Header Cart Count (Phase 5 Requirement)
-            const cartBadge = document.querySelector('.cart-count-badge');
+            const cartBadge = document.getElementById('cart-count');
             if (cartBadge) {
                 cartBadge.textContent = data.summary.count;
                 cartBadge.style.display = data.summary.count > 0 ? 'flex' : 'none';

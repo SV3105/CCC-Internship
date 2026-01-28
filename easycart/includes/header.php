@@ -30,17 +30,27 @@
                         Cart <i class="fas fa-shopping-cart"></i>
                         <?php 
                         $cart_count = isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
-                        if ($cart_count > 0): 
                         ?>
-                        <span class="cart-count-badge"><?php echo $cart_count; ?></span>
-                        <?php endif; ?>
+                        <span class="cart-count-badge" id="cart-count" style="display: <?php echo ($cart_count > 0) ? 'flex' : 'none'; ?>">
+                            <?php echo $cart_count; ?>
+                        </span>
                     </a>
                 </li>
                 <li><a href="<?php echo $base_path; ?>php/auth.php" class="<?php echo ($page === 'auth') ? 'active-nav' : ''; ?>">Login / Sign Up</a></li>
                 <li><a href="<?php echo $base_path; ?>php/orders.php" class="<?php echo ($page === 'orders') ? 'active-nav' : ''; ?>">Orders</a></li>
-                <li><a href="<?php echo $base_path; ?>php/wishlist.php" class="<?php echo ($page === 'wishlist') ? 'active-nav' : ''; ?>"><i class="far fa-heart"></i> Wishlist</a></li>
+                <li>
+                    <a href="<?php echo $base_path; ?>php/wishlist.php" class="<?php echo ($page === 'wishlist') ? 'active-nav' : ''; ?>">
+                        <i class="far fa-heart"></i> Wishlist
+                        <?php 
+                        $wishlist_count = isset($_SESSION['wishlist']) ? count($_SESSION['wishlist']) : 0;
+                        ?>
+                        <span class="cart-count-badge" id="wishlist-count" style="display: <?php echo ($wishlist_count > 0) ? 'flex' : 'none'; ?>">
+                            <?php echo $wishlist_count; ?>
+                        </span>
+                    </a>
+                </li>
                 <li><a href="<?php echo $base_path; ?>php/profile.php" class="nav-profile-link <?php echo ($page === 'profile') ? 'active-nav' : ''; ?>" title="My Profile"><i class="fas fa-user-circle"></i></a></li>
             </ul>
         </nav>
     </header>
-    <script src="<?php echo $base_path; ?>js/wishlist.js"></script>
+    <script src="<?php echo $base_path; ?>js/wishlist.js?v=<?php echo $v; ?>"></script>

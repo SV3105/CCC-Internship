@@ -165,7 +165,7 @@ function updateSummary(summaryData = null) {
     }
 
     // Sync Header Cart Count (Phase 5 Bonus)
-    const cartBadge = document.querySelector('.cart-count-badge');
+    const cartBadge = document.getElementById('cart-count');
     if (cartBadge) {
         cartBadge.textContent = cartCount;
     }

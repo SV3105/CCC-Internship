@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
     if (isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest') {
         header('Content-Type: application/json');
-        echo json_encode(['success' => true]);
+        echo json_encode(['success' => true, 'count' => count($_SESSION['wishlist'])]);
         exit;
     }
     
@@ -91,7 +91,7 @@ include '../includes/header.php';
     </div>
 </div>
 
-<script src="../js/wishlist.js"></script>
+
 <script src="../js/products.js"></script>
 
 <?php include '../includes/footer.php'; ?>

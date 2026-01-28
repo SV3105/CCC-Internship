@@ -40,7 +40,23 @@ function toggleWishlist(productId, btn, isHome = false) {
     })
     .then(res => res.json())
     .then(data => {
-        if (!data.success) {
+        if (data.success) {
+            // Update header badge
+            const wishlistBadge = document.getElementById('wishlist-count');
+            if (wishlistBadge) {
+                if (data.count > 0) {
+                    wishlistBadge.style.display = 'flex';
+                    wishlistBadge.textContent = data.count;
+                } else {
+                    wishlistBadge.style.display = 'none';
+                }
+            }
+
+            // Reload if on wishlist page and empty
+            if (data.count === 0 && window.location.pathname.includes('wishlist.php')) {
+                location.reload();
+            }
+        } else {
             alert('Failed to update wishlist. Please try again.');
             location.reload(); 
         }
