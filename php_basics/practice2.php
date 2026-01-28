@@ -34,3 +34,24 @@ switch($day){
 }
 ?>
 
+<?php 
+//task- PHP-004(1)
+
+echo "<br />";
+for($i=1; $i<=10; $i++){
+    echo "5 x $i = ". (5 * $i). "<br />";
+}
+
+//task- PHP-004(2)
+
+$student = ["name" => "xyz", "Age" => 34, "Skills" => ["HTML", "CSS", "JS", "PHP"]];
+
+foreach($student as $key => $value){
+    if(is_array($value)){
+        echo "$key => ", implode(',' , $value). '<br />';
+
+    }else{
+        echo "$key => $value <br />";
+    }
+}
+?>
