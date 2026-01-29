@@ -1,5 +1,6 @@
 <?php
 $products = [
+    // --- ORIGINAL TOP 10 PRODUCTS ---
     [
         'id' => 1,
         'title' => 'boAt Airdopes 141',
@@ -12,14 +13,8 @@ $products = [
         'featured' => true,
         'rating' => 4.2,
         'reviews' => 1250,
-        'description' => 'Experience powerful sound in a compact design with boAt Airdopes 141. Featuring crystal-clear audio, deep bass, and advanced noise isolation, these earbuds are perfect for music lovers, commuters, and professionals on the go.',
-        'features' => [
-            'Bluetooth 5.0 for fast and stable connectivity',
-            'ASAP Charge: 5 mins charge = 75 mins playtime',
-            'Up to 42 hours of total playback time',
-            'IPX4 Water and Sweat Resistance',
-            'ENx Technology for clear calls'
-        ],
+        'description' => 'Experience powerful sound in a compact design with boAt Airdopes 141. Featuring crystal-clear audio, deep bass, and advanced noise isolation.',
+        'features' => ['Bluetooth 5.0', 'ASAP Charge', '42H Playback', 'IPX4 Water Resistant'],
         'gallery' => ['earbuds.png', 'earbuds1.png', 'earbuds2.png', 'earbuds3.png']
     ],
     [
@@ -34,14 +29,8 @@ $products = [
         'featured' => true,
         'rating' => 4.5,
         'reviews' => 890,
-        'description' => 'Stay thoroughly connected with the Noise ColorFit Pro. With a large display and comprehensive health tracking, it is your perfect fitness companion.',
-        'features' => [
-            '1.55" HD Touch Display',
-            'Blood Oxygen & Heart Rate Monitor',
-            '10-day Battery Life',
-            '5ATM Waterproof',
-            'Cloud-based Watch Faces'
-        ],
+        'description' => 'Stay thoroughly connected with the Noise ColorFit Pro. Comprehensive health tracking.',
+        'features' => ['1.55" HD Display', 'SpO2 Monitor', '10-day Battery', '5ATM Waterproof'],
         'gallery' => ['smartwatch.png', 'smartwatch1.png', 'smartwatch2.png', 'smartwatch3.png']
     ],
     [
@@ -56,15 +45,9 @@ $products = [
         'featured' => false,
         'rating' => 4.7,
         'reviews' => 450,
-        'description' => 'The HP Pavilion 15 packs more performance into a smaller profile, so you can do more wherever you go. Enjoy mind-blowing entertainment with a micro-edge screen and Audio by B&O.',
-        'features' => [
-            'Intel Core i5 11th Gen Processor',
-            '16GB RAM | 512GB SSD',
-            '15.6" FHD IPS Micro-Edge Display',
-            'Intel Iris Xe Graphics',
-            'Fast Charge: 0 to 50% in 45 mins'
-        ],
-         'gallery' => ['laptop.png', 'laptop1.png', 'laptop2.png']
+        'description' => 'The HP Pavilion 15 packs more performance into a smaller profile.',
+        'features' => ['Intel Core i5', '16GB RAM', '512GB SSD', 'FHD IPS Display'],
+        'gallery' => ['laptop.png', 'laptop1.png', 'laptop2.png']
     ],
     [
         'id' => 4,
@@ -78,20 +61,14 @@ $products = [
         'featured' => false,
         'rating' => 4.4,
         'reviews' => 3200,
-        'description' => 'The boAt Rockerz 450 are on-ear wireless headphones that look cool and sound even cooler. With 40mm divers, they deliver a thumping bass experience.',
-        'features' => [
-            'Crystal Clear HD Sound',
-            'Up to 15 Hours Playback',
-            'Adjustable Earcups',
-            'Dual Mode: Bluetooth & AUX',
-            'Integrated Controls and Voice Assistant'
-        ],
+        'description' => 'On-ear wireless headphones with thumping bass.',
+        'features' => ['HD Sound', '15H Playback', 'Dual Mode', 'Voice Assistant'],
         'gallery' => ['headphones.png', 'headphones1.png', 'headphones2.png', 'headphones3.png']
     ],
     [
         'id' => 5,
         'title' => 'Samsung Galaxy M34',
-        'category' => 'electronics',
+        'category' => 'smartphones',
         'brand' => 'samsung',
         'price' => '16,999',
         'old_price' => null,
@@ -100,14 +77,9 @@ $products = [
         'featured' => false,
         'rating' => 4.3,
         'reviews' => 2100,
-        'description' => 'The Galaxy M34 5G features a 120Hz sAMOLED display and a massive 6000mAh battery, making it a monster of a device for content consumption.',
-        'features' => [
-            '6.5" FHD+ Super AMOLED 120Hz Display',
-            '50MP Triple Camera Setup',
-            '6000mAh Battery with 25W Fast Charge',
-            'Exynos 1280 Octa-Core Processor',
-            'Gorilla Glass 5 Protection'
-        ]
+        'description' => 'Monster of a device with 6000mAh battery.',
+        'features' => ['120Hz sAMOLED', '50MP Triple Camera', '6000mAh Battery'],
+        'gallery' => ['smartphone.png']
     ],
     [
         'id' => 6,
@@ -121,14 +93,9 @@ $products = [
         'featured' => true,
         'rating' => 4.1,
         'reviews' => 560,
-        'description' => 'Step out in style with these trendy sneakers from HRX by Hrithik Roshan. Designed for urban lifestyle, they offer great comfort and durability.',
-        'features' => [
-            'Breathable Canvas Upper',
-            'Cushioned Insole for Comfort',
-            'Durable Rubber Outsole',
-            'Lace-up fastening',
-            'Ideal for Casual Wear'
-        ]
+        'description' => 'Trendy sneakers from HRX by Hrithik Roshan.',
+        'features' => ['Breathable', 'Cushioned', 'Durable Sole'],
+        'gallery' => ['sneakers.png']
     ],
     [
         'id' => 7,
@@ -142,14 +109,9 @@ $products = [
         'featured' => false,
         'rating' => 4.6,
         'reviews' => 120,
-        'description' => 'Carry your essentials in style with this handcrafted tote bag from Fabindia. Made from premium cotton, it is spacious and eco-friendly.',
-        'features' => [
-            '100% Cotton Canvas',
-            'Hand Block Printed Design',
-            'Spacious Main Compartment',
-            'Sturdy Double Handle',
-            'Internal Zip Pocket'
-        ]
+        'description' => 'Handcrafted tote bag made from premium cotton.',
+        'features' => ['100% Cotton', 'Hand Block Print', 'Spacious'],
+        'gallery' => ['totebag.png']
     ],
     [
         'id' => 8,
@@ -163,14 +125,9 @@ $products = [
         'featured' => false,
         'rating' => 4.8,
         'reviews' => 340,
-        'description' => 'A classic timepiece for the modern man. The Titan Neo features a sleek dial and leather strap, making it suitable for both formal and casual occasions.',
-        'features' => [
-            'Analog Display with Date Function',
-            'Premium Leather Strap',
-            'Water Resistant up to 50m',
-            'Mineral Glass Crystal',
-            '24 Months Warranty'
-        ]
+        'description' => 'Classic timepiece for the modern man.',
+        'features' => ['Analog', 'Leather Strap', 'Water Resistant'],
+        'gallery' => ['titan.png']
     ],
     [
         'id' => 9,
@@ -184,14 +141,9 @@ $products = [
         'featured' => true,
         'rating' => 4.5,
         'reviews' => 200,
-        'description' => 'Travel with confidence using this durable hard-shell trolley from VIP. It features 360-degree wheels and a TSA lock for security.',
-        'features' => [
-            'Polycarbonate Hard Shell',
-            'Scratch Resistant Surface',
-            '4 Smooth Rolling Wheels',
-            'Integrated TSA Number Lock',
-            '5 Year International Warranty'
-        ]
+        'description' => 'Durable hard-shell trolley with 360-degree wheels.',
+        'features' => ['Polycarbonate', 'TSA Lock', '5 Year Warranty'],
+        'gallery' => ['suitcase.webp']
     ],
     [
         'id' => 10,
@@ -205,35 +157,420 @@ $products = [
         'featured' => false,
         'rating' => 4.3,
         'reviews' => 670,
-        'description' => 'Smell divine all day long with Mamaearth Eau De Parfum. A toxin-free, long-lasting fragrance that lifts your spirits.',
-        'features' => [
-            'Floral and Woody Notes',
-            'Long Lasting (Up to 8 hours)',
-            'Made Safe Certified',
-            'Phthalate Free',
-            'Cruelty Free'
-        ]
+        'description' => 'Toxin-free, long-lasting fragrance.',
+        'features' => ['Long Lasting', 'Made Safe', 'Cruelty Free'],
+        'gallery' => ['perfume.png']
+    ],
+
+    // --- NEWLY ADDED PRODUCTS (From Uploaded Images) ---
+    [
+        'id' => 11,
+        'title' => 'Apple iPhone 14',
+        'category' => 'smartphones',
+        'brand' => 'apple',
+        'price' => '69,999',
+        'old_price' => '79,900',
+        'image' => 'iphone.png',
+        'url' => 'product-details.php?id=11',
+        'featured' => true,
+        'rating' => 4.8,
+        'reviews' => 4500,
+        'description' => 'Super Retina XDR display, advanced camera system for better photos in any light, and A15 Bionic chip.',
+        'features' => ['6.1-inch Display', 'A15 Bionic', 'Cinematic Mode', 'faceID'],
+        'gallery' => ['iphone.png']
+    ],
+    [
+        'id' => 12,
+        'title' => 'Samsung S25 Ultra',
+        'category' => 'smartphones',
+        'brand' => 'samsung',
+        'price' => '1,24,999',
+        'old_price' => '1,44,999',
+        'image' => 'samsungs25ultra.png',
+        'url' => 'product-details.php?id=12',
+        'featured' => true,
+        'rating' => 4.9,
+        'reviews' => 1200,
+        'description' => 'The ultimate Galaxy experience with S Pen, Nightography, and the fastest processor.',
+        'features' => ['200MP Camera', 'Snapdragon 8 Gen 3', 'S Pen Included', '5000mAh'],
+        'gallery' => ['samsungs25ultra.png']
+    ],
+    [
+        'id' => 13,
+        'title' => 'Realme GT 2 Pro',
+        'category' => 'smartphones',
+        'brand' => 'realme',
+        'price' => '34,999',
+        'old_price' => '49,999',
+        'image' => 'realmephone.png',
+        'url' => 'product-details.php?id=13',
+        'featured' => false,
+        'rating' => 4.4,
+        'reviews' => 890,
+        'description' => 'Paper Tech Master Design and 2K Super Reality Display.',
+        'features' => ['Snapdragon 8 Gen 1', '65W SuperDart Charge', 'Sony IMX766 OIS'],
+        'gallery' => ['realmephone.png']
+    ],
+    [
+        'id' => 14,
+        'title' => 'Canon EOS 1500D',
+        'category' => 'electronics',
+        'brand' => 'canon',
+        'price' => '41,990',
+        'old_price' => '47,995',
+        'image' => 'canon-camera.png',
+        'url' => 'product-details.php?id=14',
+        'featured' => true,
+        'rating' => 4.6,
+        'reviews' => 2100,
+        'description' => 'Capture beautiful moments with the Canon EOS 1500D DSLR Camera.',
+        'features' => ['24.1 MP CMOS Sensor', 'DIGIC 4+ Processor', 'Wi-Fi & NFC', 'Full HD Video'],
+        'gallery' => ['canon-camera.png']
+    ],
+    [
+        'id' => 15,
+        'title' => 'Sony WH-1000XM5',
+        'category' => 'electronics',
+        'brand' => 'sony',
+        'price' => '29,990',
+        'old_price' => '34,990',
+        'image' => 'sonyheadphone.png',
+        'url' => 'product-details.php?id=15',
+        'featured' => true,
+        'rating' => 4.8,
+        'reviews' => 1500,
+        'description' => 'Industry-leading noise canceling headphones with Auto NC Optimizer.',
+        'features' => ['30 Hour Battery', 'NC Optimizer', 'Crystal Clear Calls'],
+        'gallery' => ['sonyheadphone.png']
+    ],
+    [
+        'id' => 16,
+        'title' => 'Apple AirPods Pro',
+        'category' => 'electronics',
+        'brand' => 'apple',
+        'price' => '22,900',
+        'old_price' => '26,900',
+        'image' => 'ipods.png',
+        'url' => 'product-details.php?id=16',
+        'featured' => false,
+        'rating' => 4.7,
+        'reviews' => 5000,
+        'description' => 'Active Noise Cancellation for immersive sound.',
+        'features' => ['MagSafe Case', 'Transparency Mode', 'Spatial Audio'],
+        'gallery' => ['ipods.png']
+    ],
+    [
+        'id' => 17,
+        'title' => 'Mpow H19 IPO',
+        'category' => 'electronics',
+        'brand' => 'mpow',
+        'price' => '2,499',
+        'old_price' => '4,999',
+        'image' => 'Mpow_headphones.png',
+        'url' => 'product-details.php?id=17',
+        'featured' => false,
+        'rating' => 4.3,
+        'reviews' => 600,
+        'description' => 'Wireless lightweight headphones with deep bass.',
+        'features' => ['Active Noise Cancelling', 'Hi-Fi Sound', '30H Playtime'],
+        'gallery' => ['Mpow_headphones.png']
+    ],
+    [
+        'id' => 18,
+        'title' => 'Dell XPS 13',
+        'category' => 'electronics',
+        'brand' => 'dell',
+        'price' => '1,19,990',
+        'old_price' => '1,40,000',
+        'image' => 'dell.png',
+        'url' => 'product-details.php?id=18',
+        'featured' => true,
+        'rating' => 4.8,
+        'reviews' => 300,
+        'description' => 'Premium ultrabook with stunning InfinityEdge display.',
+        'features' => ['Intel Evo', '13.4" UHD+', 'Thin & Light'],
+        'gallery' => ['laptop1.png']
+    ],
+    [
+        'id' => 19,
+        'title' => 'Xiaomi Notebook Pro',
+        'category' => 'electronics',
+        'brand' => 'xiaomi',
+        'price' => '56,999',
+        'old_price' => '74,999',
+        'image' => 'mi laptop.png',
+        'url' => 'product-details.php?id=19',
+        'featured' => false,
+        'rating' => 4.4,
+        'reviews' => 500,
+        'description' => 'Power-packed performance with 2.5K display.',
+        'features' => ['11th Gen Intel', '16GB RAM', 'Metal Body'],
+        'gallery' => ['mi laptop.png']
+    ],
+    [
+        'id' => 20,
+        'title' => 'Amazon Alexa Echo Dot',
+        'category' => 'electronics',
+        'brand' => 'amazon',
+        'price' => '3,999',
+        'old_price' => '4,499',
+        'image' => 'alexa.jpg',
+        'url' => 'product-details.php?id=20',
+        'featured' => false,
+        'rating' => 4.5,
+        'reviews' => 10000,
+        'description' => 'Smart speaker with Alexa. Just ask for music, news, and more.',
+        'features' => ['Voice Control', 'Smart Home Hub', 'Privacy Protection'],
+        'gallery' => ['alexa.jpg']
+    ],
+    [
+        'id' => 21,
+        'title' => 'Samsung The Frame TV',
+        'category' => 'electronics',
+        'brand' => 'samsung',
+        'price' => '89,990',
+        'old_price' => '1,19,900',
+        'image' => 'tv.png',
+        'url' => 'product-details.php?id=21',
+        'featured' => true,
+        'rating' => 4.7,
+        'reviews' => 450,
+        'description' => 'TV when it\'s on, Art when it\'s off.',
+        'features' => ['QLED 4K', 'Matte Display', 'Art Mode'],
+        'gallery' => ['tv.png', 'tv-another.png']
+    ],
+    [
+        'id' => 22,
+        'title' => 'JBL Portable Speaker',
+        'category' => 'electronics',
+        'brand' => 'jbl',
+        'price' => '8,999',
+        'old_price' => '12,999',
+        'image' => 'speaker.png',
+        'url' => 'product-details.php?id=22',
+        'featured' => false,
+        'rating' => 4.6,
+        'reviews' => 2200,
+        'description' => 'Powerful portable speaker with deep bass.',
+        'features' => ['Waterproof IPX7', '12H Playtime', 'PartyBoost'],
+        'gallery' => ['speaker.png']
+    ],
+    [
+        'id' => 23,
+        'title' => 'Gaming PC Tower',
+        'category' => 'electronics',
+        'brand' => 'hp',
+        'price' => '85,000',
+        'old_price' => '1,10,000',
+        'image' => 'pc.png',
+        'url' => 'product-details.php?id=23',
+        'featured' => false,
+        'rating' => 4.5,
+        'reviews' => 150,
+        'description' => 'High performance gaming desktop tower.',
+        'features' => ['RTX 3060', 'Ryzen 7', 'RGB Lighting'],
+        'gallery' => ['pc.png']
+    ],
+    [
+        'id' => 24,
+        'title' => 'LG Double Door Fridge',
+        'category' => 'home',
+        'brand' => 'lg',
+        'price' => '32,990',
+        'old_price' => '41,990',
+        'image' => 'LG-fridge.png',
+        'url' => 'product-details.php?id=24',
+        'featured' => true,
+        'rating' => 4.6,
+        'reviews' => 800,
+        'description' => 'Smart Inverter Frost-Free Double Door Refrigerator.',
+        'features' => ['260L Capacity', '3 Star', 'Smart Diagnosis'],
+        'gallery' => ['LG-fridge.png']
+    ],
+    [
+        'id' => 25,
+        'title' => 'Samsung Side-by-Side',
+        'category' => 'home',
+        'brand' => 'samsung',
+        'price' => '85,990',
+        'old_price' => '1,10,000',
+        'image' => 'fridge.png',
+        'url' => 'product-details.php?id=25',
+        'featured' => false,
+        'rating' => 4.8,
+        'reviews' => 300,
+        'description' => 'Large capacity side-by-side refrigerator for modern homes.',
+        'features' => ['SpaceMax Technology', 'Digital Inverter', 'No Frost'],
+        'gallery' => ['fridge.png']
+    ],
+    [
+        'id' => 26,
+        'title' => 'LG Front Load Washer',
+        'category' => 'home',
+        'brand' => 'lg',
+        'price' => '28,990',
+        'old_price' => '35,990',
+        'image' => 'washingmachine.png',
+        'url' => 'product-details.php?id=26',
+        'featured' => false,
+        'rating' => 4.7,
+        'reviews' => 650,
+        'description' => '7kg Fully Automatic Front Load Washing Machine.',
+        'features' => ['6 Motion DD', 'Heater', 'Smart Diagnosis'],
+        'gallery' => ['washingmachine.png', 'washingmachine-another.png']
+    ],
+    [
+        'id' => 27,
+        'title' => 'Dyson V15 Detect',
+        'category' => 'home',
+        'brand' => 'dyson',
+        'price' => '65,900',
+        'old_price' => null,
+        'image' => 'vaccumecleaner.png',
+        'url' => 'product-details.php?id=27',
+        'featured' => true,
+        'rating' => 4.9,
+        'reviews' => 200,
+        'description' => 'Most powerful, intelligent cordless vacuum.',
+        'features' => ['Laser Slim Fluffy', 'Piezo Sensor', 'Deep Cleaning'],
+        'gallery' => ['vaccumecleaner.png']
+    ],
+    [
+        'id' => 28,
+        'title' => 'Philips Juicer Mixer',
+        'category' => 'home',
+        'brand' => 'philips',
+        'price' => '3,299',
+        'old_price' => '4,500',
+        'image' => 'juicemaker.png',
+        'url' => 'product-details.php?id=28',
+        'featured' => false,
+        'rating' => 4.4,
+        'reviews' => 1200,
+        'description' => 'Juicing and grinding made easy with 750W motor.',
+        'features' => ['Nutri-Juice Jar', 'Leak Proof', '3 Speed Control'],
+        'gallery' => ['juicemaker.png']
+    ],
+    [
+        'id' => 29,
+        'title' => 'Bajaj Mixer Grinder',
+        'category' => 'home',
+        'brand' => 'bajaj',
+        'price' => '2,499',
+        'old_price' => '3,200',
+        'image' => 'mixure.png',
+        'url' => 'product-details.php?id=29',
+        'featured' => false,
+        'rating' => 4.2,
+        'reviews' => 3000,
+        'description' => 'Durable and powerful mixer grinder for your kitchen.',
+        'features' => ['500W', '3 Jars', 'Overload Protection'],
+        'gallery' => ['mixure.png']
+    ],
+    [
+        'id' => 30,
+        'title' => 'Crompton Ceiling Fan',
+        'category' => 'home',
+        'brand' => 'crompton',
+        'price' => '1,899',
+        'old_price' => '2,500',
+        'image' => 'fan.png',
+        'url' => 'product-details.php?id=30',
+        'featured' => false,
+        'rating' => 4.3,
+        'reviews' => 5000,
+        'description' => 'High speed ceiling fan with anti-dust technology.',
+        'features' => ['380 RPM', 'Anti-Dust', '2 Year Warranty'],
+        'gallery' => ['fan.png']
+    ],
+    [
+        'id' => 31,
+        'title' => 'Ray-Ban Aviator',
+        'category' => 'fashion',
+        'brand' => 'rayban',
+        'price' => '8,590',
+        'old_price' => '10,990',
+        'image' => 'sunglass.png',
+        'url' => 'product-details.php?id=31',
+        'featured' => true, // Featured item
+        'rating' => 4.7,
+        'reviews' => 1500,
+        'description' => 'Classic Aviator Sunglasses from Ray-Ban. Timeless design with 100% UV protection.',
+        'features' => ['Crystal Green Lens', 'Gold Metal Frame', 'UV Protection'],
+        'gallery' => ['rayban.png']
+    ],
+    [
+        'id' => 32,
+        'title' => 'Puma Running Shoes',
+        'category' => 'sports',
+        'brand' => 'puma',
+        'price' => '3,499',
+        'old_price' => '6,999',
+        'image' => 'puma.png',
+        'url' => 'product-details.php?id=32',
+        'featured' => false,
+        'rating' => 4.5,
+        'reviews' => 800,
+        'description' => 'Lightweight running shoes from Puma with SoftFoam+ comfort.',
+        'features' => ['Mesh Upper', 'EVA Midsole', 'Rubber Outsole'],
+        'gallery' => ['puma.png']
     ]
 ];
 
 // Centralized Category Data
 $categories = [
     'electronics' => [
-        'name' => 'Tech',
-        'image' => 'earbuds.png' // Matches boAt Airdopes
+        'name' => 'Electronics',
+        'image' => 'earbuds.png'
+    ],
+    'smartphones' => [
+        'name' => 'Smartphones',
+        'image' => 'smartphone.png'
     ],
     'fashion' => [
         'name' => 'Fashion',
-        'image' => 'sneakers.png' // Matches HRX Sneakers
+        'image' => 'sneakers.png'
     ],
     'home' => [
-        'name' => 'Travel',
-        'image' => 'suitcase.webp' // Matches VIP Trolley
+        'name' => 'Home & Living',
+        'image' => 'LG-fridge.png'
     ],
     'beauty' => [
         'name' => 'Beauty',
-        'image' => 'perfume.png' // Matches Mamaearth
+        'image' => 'perfume.png'
+    ],
+    'sports' => [
+        'name' => 'Sports',
+        'image' => 'sneakers.png'
     ]
 ];
 
+// Centralized Brand Data
+$brands = [
+    'boat' => 'boAt',
+    'noise' => 'Noise',
+    'hp' => 'HP',
+    'samsung' => 'Samsung',
+    'hrx' => 'HRX',
+    'fabindia' => 'Fabindia',
+    'titan' => 'Titan',
+    'vip' => 'VIP',
+    'mamaearth' => 'Mamaearth',
+    'apple' => 'Apple',
+    'realme' => 'Realme',
+    'xiaomi' => 'Xiaomi',
+    'dell' => 'Dell',
+    'canon' => 'Canon',
+    'sony' => 'Sony',
+    'jbl' => 'JBL',
+    'mpow' => 'Mpow',
+    'amazon' => 'Amazon',
+    'lg' => 'LG',
+    'dyson' => 'Dyson',
+    'philips' => 'Philips',
+    'bajaj' => 'Bajaj',
+    'crompton' => 'Crompton',
+    'puma' => 'Puma',
+    'rayban' => 'Ray-Ban'
+];
 ?>

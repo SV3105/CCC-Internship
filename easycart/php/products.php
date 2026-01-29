@@ -75,8 +75,22 @@ $filtered_products = array_filter($products, function($product) use ($selected_c
     return $cat_match && $brand_match && $search_match;
 });
 
-// 3. Render Function (HTML Output for Grid Items)
-function renderProductsGrid($items) {
+// --- PAGINATION LOGIC ---
+$limit = 12; // Products per page
+$page_num = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page_num < 1) $page_num = 1;
+
+$total_products = count($filtered_products);
+$total_pages = ceil($total_products / $limit);
+
+// Ensure page doesn't exceed total pages
+if ($page_num > $total_pages && $total_pages > 0) $page_num = $total_pages;
+
+$offset = ($page_num - 1) * $limit;
+$paginated_products = array_slice($filtered_products, $offset, $limit);
+
+// 3. Render Function (HTML Output for Grid Items + Pagination)
+function renderProductsGrid($items, $page, $total_pages) {
     $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
     
     if(!empty($items)):
@@ -120,12 +134,35 @@ function renderProductsGrid($items) {
         <p>No products found matching your filters.</p>
     </div>
     <?php endif; 
+
+    // Render Pagination UI
+    if ($total_pages > 1): ?>
+    <div class="pagination">
+        <!-- Prev Button -->
+        <?php if ($page > 1): ?>
+            <button onclick="changePage(<?php echo $page - 1; ?>)" class="btn-page"><i class="fas fa-chevron-left"></i></button>
+        <?php endif; ?>
+
+        <!-- Page Numbers -->
+        <?php for($i = 1; $i <= $total_pages; $i++): ?>
+            <button onclick="changePage(<?php echo $i; ?>)" class="btn-page <?php echo ($i == $page) ? 'active' : ''; ?>">
+                <?php echo $i; ?>
+            </button>
+        <?php endfor; ?>
+
+        <!-- Next Button -->
+        <?php if ($page < $total_pages): ?>
+            <button onclick="changePage(<?php echo $page + 1; ?>)" class="btn-page"><i class="fas fa-chevron-right"></i></button>
+        <?php endif; ?>
+    </div>
+    <?php endif;
 }
 
 // 4. AJAX HANDLER
 // If this is an AJAX request, ONLY output the grid and exit.
+// If this is an AJAX request, ONLY output the grid and exit.
 if(isset($_GET['ajax']) && $_GET['ajax'] == '1') {
-    renderProductsGrid($filtered_products);
+    renderProductsGrid($paginated_products, $page_num, $total_pages);
     exit;
 }
 
@@ -146,16 +183,18 @@ include '../includes/header.php';
                     <form action="" method="GET" id="filterForm">
                         <!-- Preserve Search Query -->
                         <input type="hidden" name="search" value="<?php echo htmlspecialchars($search_query); ?>">
+                        <!-- Hidden Page Input for Pagination -->
+                        <input type="hidden" name="page" id="pageInput" value="<?php echo $page_num; ?>">
 
                         <div class="filter-group">
                             <h3>Categories</h3>
                             <?php 
-                            $cats = ['electronics' => 'Electronics', 'fashion' => 'Fashion', 'home' => 'Home & Living', 'beauty' => 'Beauty'];
-                            foreach($cats as $val => $label):
+                            // Use centralized $categories from products_data.php
+                            foreach($categories as $val => $data):
                             ?>
                             <label class="filter-option">
                                 <input type="checkbox" name="category[]" value="<?php echo $val; ?>" <?php echo in_array($val, $selected_categories) ? 'checked' : ''; ?>>
-                                <span class="checkmark"></span> <?php echo $label; ?>
+                                <span class="checkmark"></span> <?php echo $data['name']; ?>
                             </label>
                             <?php endforeach; ?>
                         </div>
@@ -163,7 +202,7 @@ include '../includes/header.php';
                         <div class="filter-group">
                             <h3>Brands</h3>
                             <?php 
-                            $brands = ['boat' => 'boAt', 'noise' => 'Noise', 'hp' => 'HP', 'hrx' => 'HRX', 'fabindia' => 'Fabindia', 'mamaearth' => 'Mamaearth', 'titan' => 'Titan', 'samsung' => 'Samsung', 'vip' => 'VIP'];
+                            // Use centralized $brands from products_data.php
                             foreach($brands as $val => $label):
                             ?>
                             <label class="filter-option">
@@ -187,7 +226,7 @@ include '../includes/header.php';
                     <div class="products-grid" id="productGrid">
                     <?php 
                     // Initial Render
-                    renderProductsGrid($filtered_products);
+                    renderProductsGrid($paginated_products, $page_num, $total_pages);
                     ?>
                 </div>
             </div>

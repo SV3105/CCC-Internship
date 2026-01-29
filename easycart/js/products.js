@@ -7,7 +7,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const checkboxes = filterForm.querySelectorAll('input[type="checkbox"]');
     const hiddenSearchInput = filterForm.querySelector('input[name="search"]');
+    const pageInput = document.getElementById('pageInput');
     const navSearchInput = navSearchForm ? navSearchForm.querySelector('input[name="search"]') : null;
+
+    // Expose changePage to global scope so onclick works
+    window.changePage = function(pageNum) {
+        if (pageInput) {
+            pageInput.value = pageNum;
+            triggerUpdate();
+            // Scroll to top of grid
+            const gridTop = grid.getBoundingClientRect().top + window.scrollY - 100;
+            window.scrollTo({top: gridTop, behavior: 'smooth'});
+        }
+    };
 
     // Handle AJAX filtering
     function triggerUpdate() {
@@ -49,7 +61,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Checkbox changes
     checkboxes.forEach(cb => {
-        cb.addEventListener('change', triggerUpdate);
+        cb.addEventListener('change', function() {
+            // Reset to page 1 when filter changes
+            if (pageInput) pageInput.value = 1;
+            triggerUpdate();
+        });
     });
 
     // Real-time Search Sync (Header -> Sidebar)
@@ -67,6 +83,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (window.location.pathname.includes('products.php')) {
                 e.preventDefault();
                 hiddenSearchInput.value = navSearchInput.value;
+                if (pageInput) pageInput.value = 1; // Reset to page 1
                 triggerUpdate();
             }
         });

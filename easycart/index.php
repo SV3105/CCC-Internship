@@ -57,7 +57,9 @@ include './includes/header.php';
                 <div class="categories-grid">
                     <?php 
                     // Use $categories from includes/products_data.php
+                    $allowed_display_cats = ['electronics', 'fashion', 'beauty', 'smartphones'];
                     foreach($categories as $cat_slug => $cat_data): 
+                        if (!in_array($cat_slug, $allowed_display_cats)) continue;
                     ?>
                     <div class="category-card-img">
                         <a href="./php/products.php?category=<?php echo $cat_slug; ?>">
