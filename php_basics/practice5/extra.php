@@ -44,3 +44,7 @@ $obj = new Config();
 isset($obj->pass);
 
 ?>
+
+<?php 
+//All magic methods, with the exception of __construct(), __destruct(), and __clone(), must be declared as public, otherwise an fatal error is emitted. 
+?>

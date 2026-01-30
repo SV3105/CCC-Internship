@@ -49,20 +49,12 @@ $name = ["xyz", "abc"];
 $merged = array_merge($name, $numbers);
 print_r($merged);
 
-/*
-$fname=array("Peter","Ben","Joe");
-$age=array("35","37","43");
-
-$c=array_combine($fname,$age);
-print_r($c); => Array ( [Peter] => 35 [Ben] => 37 [Joe] => 43 )
-*/
-
-// sort() - sorts an indexed array in ascending order
-// rsort() - sorts an indexed array in descending order
-// asort() - sorts an associative array in ascending order, according to the value
-// ksort() - sorts an associative array in ascending order, according to the key
-// arsort() - sorts an associative array in descending order, according to the value
-// krsort() - sorts an associative array in descending order, according to the key
+/*sort() - sorts an indexed array in ascending order
+rsort() - sorts an indexed array in descending order
+asort() - sorts an associative array in ascending order, according to the value
+ksort() - sorts an associative array in ascending order, according to the key
+arsort() - sorts an associative array in descending order, according to the value
+krsort() - sorts an associative array in descending order, according to the key */
 ?>
 
 

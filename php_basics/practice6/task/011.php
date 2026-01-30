@@ -4,4 +4,6 @@
     if(isset($_COOKIE['user_preference'])){
         echo "user_preference is: ". $_COOKIE["user_preference"];
     }
+    echo "<br />";
+    print_r($_COOKIE);
 ?>
