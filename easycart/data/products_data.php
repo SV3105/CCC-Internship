@@ -6,8 +6,8 @@ $products = [
         'title' => 'boAt Airdopes 141',
         'category' => 'electronics',
         'brand' => 'boat',
-        'price' => '399',
-        'old_price' => '1,190',
+        'price' => '299',
+        'old_price' => '899',
         'image' => 'earbuds.png',
         'url' => 'product-details.php?id=1',
         'featured' => true,
@@ -22,8 +22,8 @@ $products = [
         'title' => 'Noise ColorFit Pro',
         'category' => 'electronics',
         'brand' => 'noise',
-        'price' => '1,999',
-        'old_price' => '5,999',
+        'price' => '249',
+        'old_price' => '999',
         'image' => 'smartwatch.png',
         'url' => 'product-details.php?id=2',
         'featured' => true,
@@ -54,8 +54,8 @@ $products = [
         'title' => 'boAt Rockerz 450',
         'category' => 'electronics',
         'brand' => 'boat',
-        'price' => '1,499',
-        'old_price' => null,
+        'price' => '299',
+        'old_price' => '999',
         'image' => 'headphones.png',
         'url' => 'product-details.php?id=4',
         'featured' => false,
@@ -86,8 +86,8 @@ $products = [
         'title' => 'HRX Sneakers',
         'category' => 'fashion',
         'brand' => 'hrx',
-        'price' => '2,299',
-        'old_price' => '3,599',
+        'price' => '199',
+        'old_price' => '699',
         'image' => 'sneakers.png',
         'url' => 'product-details.php?id=6',
         'featured' => true,
@@ -102,8 +102,8 @@ $products = [
         'title' => 'Fabindia Tote Bag',
         'category' => 'fashion',
         'brand' => 'fabindia',
-        'price' => '1,599',
-        'old_price' => null,
+        'price' => '149',
+        'old_price' => '499',
         'image' => 'totebag.png',
         'url' => 'product-details.php?id=7',
         'featured' => false,
@@ -147,11 +147,11 @@ $products = [
     ],
     [
         'id' => 10,
-        'title' => 'Mamaearth Eau De Parfum',
+        'title' => 'Mamaearth Perfumes',
         'category' => 'beauty',
         'brand' => 'mamaearth',
-        'price' => '499',
-        'old_price' => null,
+        'price' => '199',
+        'old_price' => '399',
         'image' => 'perfume.png',
         'url' => 'product-details.php?id=10',
         'featured' => false,
@@ -264,8 +264,8 @@ $products = [
         'title' => 'Mpow H19 IPO',
         'category' => 'electronics',
         'brand' => 'mpow',
-        'price' => '2,499',
-        'old_price' => '4,999',
+        'price' => '299',
+        'old_price' => '899',
         'image' => 'Mpow_headphones.png',
         'url' => 'product-details.php?id=17',
         'featured' => false,
@@ -312,8 +312,8 @@ $products = [
         'title' => 'Amazon Alexa Echo Dot',
         'category' => 'electronics',
         'brand' => 'amazon',
-        'price' => '3,999',
-        'old_price' => '4,499',
+        'price' => '249',
+        'old_price' => '999',
         'image' => 'alexa.jpg',
         'url' => 'product-details.php?id=20',
         'featured' => false,
@@ -514,8 +514,120 @@ $products = [
         'description' => 'Lightweight running shoes from Puma with SoftFoam+ comfort.',
         'features' => ['Mesh Upper', 'EVA Midsole', 'Rubber Outsole'],
         'gallery' => ['puma.png']
+    ],
+    [
+        'id' => 33,
+        'title' => 'Maggi Noodles',
+        'category' => 'snacks',
+        'brand' => 'nestle',
+        'price' => '12',
+        'old_price' => '14',
+        'image' => 'meggie.jpg',
+        'url' => 'product-details.php?id=33',
+        'featured' => true,
+        'rating' => 4.8,
+        'reviews' => 5000,
+        'description' => 'India\'s favorite instant noodles. 2-minute magic.',
+        'features' => ['Masala Flavor', 'Instant', 'Vegetarian'],
+        'gallery' => ['meggie.jpg']
+    ],
+    [
+        'id' => 34,
+        'title' => 'Oreo Biscuits',
+        'category' => 'snacks',
+        'brand' => 'cadbury',
+        'price' => '30',
+        'old_price' => '35',
+        'image' => 'oreo.jpg',
+        'url' => 'product-details.php?id=34',
+        'featured' => false,
+        'rating' => 4.7,
+        'reviews' => 3200,
+        'description' => 'Twist, Lick, Dunk. The original chocolate sandwich cookie.',
+        'features' => ['Vanilla Cream', 'Crunchy', 'Family Pack'],
+        'gallery' => ['oreo.jpg']
+    ],
+    [
+        'id' => 35,
+        'title' => 'Monaco Biscuits',
+        'category' => 'snacks',
+        'brand' => 'parle',
+        'price' => '10',
+        'old_price' => null,
+        'image' => 'monaco.jpg',
+        'url' => 'product-details.php?id=35',
+        'featured' => false,
+        'rating' => 4.5,
+        'reviews' => 1500,
+        'description' => 'Light and salty crackers, perfect for tea time.',
+        'features' => ['Salted', 'Light', 'Crispy'],
+        'gallery' => ['monaco.jpg']
+    ],
+    [
+        'id' => 36,
+        'title' => 'Gathiya',
+        'category' => 'snacks',
+        'brand' => 'local',
+        'price' => '80',
+        'old_price' => '100',
+        'image' => 'gathiya.jpg',
+        'url' => 'product-details.php?id=36',
+        'featured' => false,
+        'rating' => 4.6,
+        'reviews' => 500,
+        'description' => 'Traditional Gujarati snack. Crunchy and savory.',
+        'features' => ['Besan', 'Spicy', 'Fresh'],
+        'gallery' => ['gathiya.jpg']
+    ],
+    [
+        'id' => 37,
+        'title' => 'Poha',
+        'category' => 'snacks',
+        'brand' => 'fortune',
+        'price' => '45',
+        'old_price' => '60',
+        'image' => 'poha.jpg',
+        'url' => 'product-details.php?id=37',
+        'featured' => false,
+        'rating' => 4.4,
+        'reviews' => 800,
+        'description' => 'Flattened rice, essential for a healthy breakfast.',
+        'features' => ['Medium flakes', 'Rich in Iron', 'Easy to Cook'],
+        'gallery' => ['poha.jpg']
+    ],
+    [
+        'id' => 38,
+        'title' => 'Vermicelli',
+        'category' => 'snacks',
+        'brand' => 'bambino',
+        'price' => '35',
+        'old_price' => '40',
+        'image' => 'vermicelli.jpg',
+        'url' => 'product-details.php?id=38',
+        'featured' => false,
+        'rating' => 4.5,
+        'reviews' => 1200,
+        'description' => 'Roasted vermicelli for kheer and upma.',
+        'features' => ['Roasted', 'Durum Wheat', 'Non-Sticky'],
+        'gallery' => ['vermicelli.jpg']
     ]
+
 ];
+
+// --- ADD DYNAMIC SHIPPING METHOD ---
+// Rule: Price <= 300 -> 'express', Price > 300 -> 'freight'
+foreach ($products as &$product) {
+    // Remove commas from price (e.g., "1,299" -> "1299") for comparison
+    $clean_price = (float)str_replace(',', '', $product['price']);
+    
+    if ($clean_price <= 300) {
+        $product['shipping_method'] = 'express';
+    } else {
+        $product['shipping_method'] = 'freight';
+    }
+}
+unset($product); // Break reference
+
 
 // Centralized Category Data
 $categories = [
@@ -542,6 +654,10 @@ $categories = [
     'sports' => [
         'name' => 'Sports',
         'image' => 'sneakers.png'
+    ],
+    'snacks' => [
+        'name' => 'Snacks & Groceries',
+        'image' => 'meggie.jpg'
     ]
 ];
 
@@ -571,6 +687,12 @@ $brands = [
     'bajaj' => 'Bajaj',
     'crompton' => 'Crompton',
     'puma' => 'Puma',
-    'rayban' => 'Ray-Ban'
+    'rayban' => 'Ray-Ban',
+    'nestle' => 'Nestle',
+    'cadbury' => 'Cadbury',
+    'parle' => 'Parle',
+    'local' => 'Local Special',
+    'fortune' => 'Fortune',
+    'bambino' => 'Bambino'
 ];
 ?>

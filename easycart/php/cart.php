@@ -13,6 +13,9 @@ include '../data/products_data.php';
 if (!isset($_SESSION['cart'])) {
     $_SESSION['cart'] = [];
 }
+if (!isset($_SESSION['applied_promo'])) {
+    $_SESSION['applied_promo'] = null;
+}
 
 /**
  * Centralized Cart Calculation Logic
@@ -43,43 +46,40 @@ function calculateCartTotals($cart_items, $products_data) {
     }
     $total_discount = $total_mrp - $subtotal;
 
-    // Smart Discount Logic (Best of 3)
-    $smart_discount = 0;
-    $reason = "";
-    $item_count = array_sum($cart_items);
-
-    // Scheme A: Bulk (>3 items) -> 5%
-    $scheme_a = ($item_count > 3) ? ($subtotal * 0.05) : 0;
-    
-    // Scheme B: Big Spender (>10k) -> Flat 1000
-    $scheme_b = ($subtotal > 10000) ? 1000 : 0;
-
-    // Scheme C: Mega Tier (>25k) -> 12%
-    $scheme_c = ($subtotal > 25000) ? ($subtotal * 0.12) : 0;
-
-    // Find Winner
-    if ($scheme_c >= $scheme_b && $scheme_c >= $scheme_a && $scheme_c > 0) {
-        $smart_discount = $scheme_c;
-        $reason = "Mega Tier (12% off for orders over ₹25,000)";
-    } elseif ($scheme_b >= $scheme_a && $scheme_b > 0) {
-        $smart_discount = $scheme_b;
-        $reason = "Big Spender (Flat ₹1,000 off for orders over ₹10,000)";
-    } elseif ($scheme_a > 0) {
-        $smart_discount = $scheme_a;
-        $reason = "Bulk Saver (5% off for buying more than 3 items)";
-    }
-
-    // Shipping Rules
+    // --- Shipping Rules (Moved Before Discount) ---
     $shipping_options = [
-        'standard' => 80,
-        'express' => min(120, $subtotal * 0.10),
-        'white_glove' => min(180, $subtotal * 0.05),
+        'standard' => 40,
+        'express' => min(80, $subtotal * 0.10),
+        'white_glove' => min(150, $subtotal * 0.05),
         'freight' => max(250, $subtotal * 0.03)
     ];
 
-    // Determine Selected Shipping Cost
-    $selected_method = isset($_SESSION['shipping_method']) ? $_SESSION['shipping_method'] : 'standard';
-    // Default to standard if method invalid, but logic below handles it via array lookup or fallback
+    // Determine Selected Shipping Method with Smart Validation
+    $selected_method = isset($_SESSION['shipping_method']) ? $_SESSION['shipping_method'] : null;
+
+    if ($selected_method === null) {
+        // No method set: Default to Express (Small) or Freight (Large)
+        $selected_method = ($subtotal <= 300) ? 'express' : 'freight';
+        $_SESSION['shipping_method'] = $selected_method;
+    } else {
+        // Method set: Validate against rules
+        if ($subtotal <= 300) {
+            // Small Order (< 300)
+            // Rule: Express is cheaper/faster. Auto-upgrade Standard -> Express.
+            if ($selected_method !== 'express') {
+                 $selected_method = 'express';
+                 $_SESSION['shipping_method'] = $selected_method;
+            }
+        } else {
+            // Large Order (> 300)
+            // Rule: Must be Freight or White Glove.
+            if ($selected_method !== 'white_glove' && $selected_method !== 'freight') {
+                $selected_method = 'freight';
+                $_SESSION['shipping_method'] = $selected_method;
+            }
+        }
+    }
+
     $shipping_cost = isset($shipping_options[$selected_method]) ? $shipping_options[$selected_method] : 40;
     
     // Empty cart checks
@@ -88,9 +88,55 @@ function calculateCartTotals($cart_items, $products_data) {
         $shipping_options = array_map(function() { return 0; }, $shipping_options);
     }
 
+    // --- Smart Discount Logic (Quantity Based) ---
+    // Rule: 1 Product = 1%, 2 Products = 2%, etc.
+    // Calculated on Price (Subtotal) ONLY, excluding shipping.
+    $smart_discount = 0;
+    $reason = "";
+    $item_count = array_sum($cart_items);
+    
+    // Basis is now just the product price (Subtotal)
+    // $cart_total_basis = $subtotal + $shipping_cost; // REMOVED
+
+    if ($item_count > 0) {
+        // Cap at 100% to prevent negative total
+        $discount_percent = min($item_count, 100); 
+        $smart_discount = $subtotal * ($discount_percent / 100);
+        $reason = "Quantity Discount ({$discount_percent}% off on items)";
+    }
+
+    // --- Promo Code Logic (SaveX -> X% off on Subtotal + Shipping) ---
+    $promo_discount = 0;
+    $promo_code = isset($_SESSION['applied_promo']) ? $_SESSION['applied_promo'] : null;
+    $promo_message = "";
+
+    if ($promo_code) {
+        // Strict Validation: Case-Sensitive & Specific Codes Only
+        $allowed_codes = ['SAVE5', 'SAVE10', 'SAVE15', 'SAVE20'];
+        
+        if (in_array($promo_code, $allowed_codes)) {
+             // Extract percentage from the valid code (e.g. SAVE5 -> 5)
+             $percent = (int)substr($promo_code, 4);
+             
+             $base_for_promo = $subtotal + $shipping_cost;
+             $promo_discount = $base_for_promo * ($percent / 100);
+             $promo_message = "{$promo_code} Applied ({$percent}% off)";
+             
+             // User Request: If promo code is applied, remove smart discount
+             if ($promo_discount > 0) {
+                 $smart_discount = 0;
+                 $reason = ""; 
+             }
+        }
+    }
+
     // Tax (18%)
     $tax = ($subtotal - $smart_discount + $shipping_cost) * 0.18;
-    $total = ($subtotal - $smart_discount) + $shipping_cost + $tax;
+
+    
+    // Total calculation
+    $total = ($subtotal - $smart_discount) + $shipping_cost + $tax - $promo_discount;
+    $total = max(0, $total); // Ensure no negative total
 
     return [
         'subtotal' => $subtotal,
@@ -102,7 +148,12 @@ function calculateCartTotals($cart_items, $products_data) {
         'total_mrp' => $total_mrp,
         'total_discount' => $total_discount,
         'smart_discount' => $smart_discount,
-        'discount_reason' => $reason
+        'discount_reason' => $reason,
+
+        'selected_method' => $selected_method, // Return the validated method
+        'promo_discount' => $promo_discount,
+        'promo_code' => $promo_code,
+        'promo_message' => $promo_message
     ];
 }
 
@@ -113,7 +164,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     if ($_POST['action'] === 'update_qty' && $p_id > 0) {
         if (isset($_POST['qty'])) {
             $new_qty = (int)$_POST['qty'];
-            if ($new_qty > 5) $new_qty = 5;
             $_SESSION['cart'][$p_id] = $new_qty;
         } elseif (isset($_POST['change'])) {
             $change = (int)$_POST['change'];
@@ -121,20 +171,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 $_SESSION['cart'][$p_id] = 0;
             }
             $_SESSION['cart'][$p_id] += $change;
-            if ($_SESSION['cart'][$p_id] > 5) $_SESSION['cart'][$p_id] = 5;
         }
         
         if (isset($_SESSION['cart'][$p_id]) && $_SESSION['cart'][$p_id] <= 0) {
             unset($_SESSION['cart'][$p_id]);
+            // If cart becomes empty, reset shipping preference
+            if (empty($_SESSION['cart'])) {
+                unset($_SESSION['shipping_method']);
+            }
         }
     } elseif ($_POST['action'] === 'remove' && $p_id > 0) {
         if (isset($_SESSION['cart'][$p_id])) {
             unset($_SESSION['cart'][$p_id]);
+            // If cart becomes empty, reset shipping preference
+            if (empty($_SESSION['cart'])) {
+                unset($_SESSION['shipping_method']);
+            }
         }
     } elseif ($_POST['action'] === 'set_shipping' && isset($_POST['method'])) {
         $_SESSION['shipping_method'] = $_POST['method'];
     } elseif ($_POST['action'] === 'clear') {
         $_SESSION['cart'] = [];
+        unset($_SESSION['shipping_method']); // Reset shipping preference
+        unset($_SESSION['applied_promo']);
+    } elseif ($_POST['action'] === 'apply_promo' && isset($_POST['code'])) {
+        $code = trim($_POST['code']);
+    
+        $is_valid = false;
+        // Strict Validation: Case-Sensitive & Specific Codes Only
+        $allowed_codes = ['SAVE5', 'SAVE10', 'SAVE15', 'SAVE20'];
+        
+        if (in_array($code, $allowed_codes)) {
+            $is_valid = true;
+        }
+        
+        if ($is_valid) {
+            $_SESSION['applied_promo'] = $code;
+        } else {
+            // If user types invalid code, we probably shouldn't clear an existing valid one unless explicitly asked.
+            // But for this simple flow, applying a new code replaces the old one.
+             $_SESSION['applied_promo'] = null; // Clear if invalid
+        }
     }
 
 
@@ -176,7 +253,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
                 'discount' => $totals['total_discount'],
                 'smart_discount' => $totals['smart_discount'],
                 'reason' => $totals['discount_reason'],
-                'shipping_options' => $totals['shipping_options']
+                'smart_discount' => $totals['smart_discount'],
+                'reason' => $totals['discount_reason'],
+                'shipping_options' => $totals['shipping_options'],
+                'promo_discount' => $totals['promo_discount'],
+                'promo_code' => $totals['promo_code'],
+                'promo_message' => $totals['promo_message']
             ]
         ]);
         exit;
@@ -256,7 +338,7 @@ include '../includes/header.php';
                             <input type="number" class="qty-input" value="<?php echo $qty; ?>" min="1" readonly>
                             <button type="button" class="qty-btn" onclick="updateQty(<?php echo $p_id; ?>, 1)"><i class="fas fa-plus"></i></button>
                         </div>
-                        <p class="item-total">₹<span class="item-subtotal-val"><?php echo number_format($item_total); ?></span></p>
+                        <p class="item-total">₹<span class="item-subtotal-val"><?php echo number_format($item_total, 2); ?></span></p>
                         
                         <button type="button" class="btn-text text-danger" onclick="removeCartItem(<?php echo $p_id; ?>)" style="font-size: 0.8rem; background:none; border:none; color: #ef4444; cursor:pointer;">Remove</button>
                     </div>
@@ -293,8 +375,28 @@ include '../includes/header.php';
                 $total_discount = $cart_totals['total_discount'];
                 $smart_discount = $cart_totals['smart_discount'];
                 $reason = $cart_totals['discount_reason'];
+                $smart_discount = $cart_totals['smart_discount'];
+                $reason = $cart_totals['discount_reason'];
                 $shipping_options = $cart_totals['shipping_options'];
-                $shipping_method = isset($_SESSION['shipping_method']) ? $_SESSION['shipping_method'] : 'standard';
+                $promo_discount = $cart_totals['promo_discount'];
+                $promo_message = $cart_totals['promo_message'];
+                $applied_promo_code = $cart_totals['promo_code'];
+                // Use the VALIDATED shipping method from calculation logic
+                $shipping_method = isset($cart_totals['selected_method']) ? $cart_totals['selected_method'] : (isset($_SESSION['shipping_method']) ? $_SESSION['shipping_method'] : 'standard');
+
+                // --- FINAL SAFETY CHECK (Band-aid for Session Persistence Issues) ---
+                // Force the correct method based on subtotal rules, ignoring session if it mismatches
+                if ($subtotal > 300) {
+                     // Large Order: Must be freight or white_glove
+                    if ($shipping_method === 'standard' || $shipping_method === 'express') {
+                        $shipping_method = 'freight';
+                    }
+                } else {
+                    // Small Order: Must be standard or express
+                    if ($shipping_method === 'freight' || $shipping_method === 'white_glove') {
+                        $shipping_method = 'express';
+                    }
+                }
                 ?>
             </div>
             
@@ -303,12 +405,8 @@ include '../includes/header.php';
             <div class="cart-summary">
                 <h3>Order Summary</h3>
                 <div class="summary-item">
-                    <span id="summary-mrp-label">Price (<?php echo $cart_totals['item_count']; ?> items)</span>
-                    <span id="summary-mrp">₹<?php echo number_format($total_mrp); ?></span>
-                </div>
-                 <div class="summary-item">
-                    <span>Discount</span>
-                    <span id="summary-discount" style="color: var(--success, #16a34a);">-₹<?php echo number_format($total_discount); ?></span>
+                    <span id="summary-price-label">Price (<?php echo $cart_totals['item_count']; ?> items)</span>
+                    <span id="summary-subtotal">₹<?php echo number_format($subtotal, 2); ?></span>
                 </div>
                 <?php if($smart_discount > 0): ?>
                 <div class="summary-item" id="row-smart-discount">
@@ -321,7 +419,7 @@ include '../includes/header.php';
                             </span>
                         </div>
                     </span>
-                    <span id="summary-smart-discount" style="color: var(--success, #16a34a);">-₹<?php echo number_format($smart_discount); ?></span>
+                    <span id="summary-smart-discount" style="color: var(--success, #16a34a);">-₹<?php echo number_format($smart_discount, 2); ?></span>
                 </div>
                 <?php else: ?>
                 <div class="summary-item" id="row-smart-discount" style="display:none;">
@@ -335,17 +433,28 @@ include '../includes/header.php';
                     <span id="summary-smart-discount" style="color: var(--success, #16a34a);">-₹0</span>
                 </div>
                 <?php endif; ?>
-                <div class="summary-item">
-                    <span>Subtotal</span>
-                    <span id="summary-subtotal">₹<?php echo number_format($subtotal); ?></span>
+
+                <?php if($promo_discount > 0): ?>
+                <div class="summary-item" id="row-promo-discount">
+                    <span class="promo-label" style="color: var(--primary);">
+                        <?php echo $promo_message; ?>
+                    </span>
+                    <span id="summary-promo-discount" style="color: var(--success, #16a34a);">-₹<?php echo number_format($promo_discount, 2); ?></span>
                 </div>
+                <?php else: ?>
+                 <div class="summary-item" id="row-promo-discount" style="display:none;">
+                    <span class="promo-label" style="color: var(--primary);">Promo Discount</span>
+                    <span id="summary-promo-discount" style="color: var(--success, #16a34a);">-₹0.00</span>
+                </div>
+                <?php endif; ?>
+
                 <div class="summary-item">
                     <span>Shipping</span>
-                    <span id="summary-shipping">₹<?php echo number_format($shipping_cost); ?></span>
+                    <span id="summary-shipping">₹<?php echo number_format($shipping_cost, 2); ?></span>
                 </div>
                 <div class="summary-item">
                     <span>Tax (18%)</span>
-                    <span id="summary-tax">₹<?php echo number_format($tax); ?></span>
+                    <span id="summary-tax">₹<?php echo number_format($tax, 2); ?></span>
                 </div>
                 
                 <div class="shipping-methods">
@@ -354,52 +463,81 @@ include '../includes/header.php';
                         <i class="fas fa-chevron-down" id="shipping-chevron"></i>
                     </div>
                     <div class="shipping-options" id="shipping-options-container" style="display: none;">
-                        <!-- Standard Shipping -->
-                        <label class="shipping-option <?php echo ($shipping_method === 'standard') ? 'selected' : ''; ?>">
-                            <input type="radio" name="shipping_method" value="standard" <?php echo ($shipping_method === 'standard') ? 'checked' : ''; ?> onchange="updateShipping('standard')">
+                        <!-- Standard Shipping (Only for <= 300) -->
+                        <?php $standard_disabled = ($subtotal > 300); ?>
+                        <label class="shipping-option <?php echo $standard_disabled ? 'disabled-option' : ''; ?>"
+                               style="<?php echo $standard_disabled ? 'opacity: 0.5; pointer-events: none;' : ''; ?>">
+                            <input type="radio" name="shipping_method" value="standard" 
+                                <?php echo ($shipping_method === 'standard') ? 'checked' : ''; ?> 
+                                <?php echo $standard_disabled ? 'disabled' : ''; ?>
+                                onchange="updateShipping('standard')">
                             <div class="shipping-option-info">
                                 <span class="shipping-option-name">Standard Shipping</span>
                                 <span class="shipping-option-desc">Flat Rate Delivery</span>
                             </div>
-                            <span class="shipping-option-price">₹80</span>
+                            <span class="shipping-option-price">₹40</span>
                         </label>
                         
-                        <!-- Express Shipping -->
-                        <label class="shipping-option <?php echo ($shipping_method === 'express') ? 'selected' : ''; ?>">
-                            <input type="radio" name="shipping_method" value="express" <?php echo ($shipping_method === 'express') ? 'checked' : ''; ?> onchange="updateShipping('express')">
+                        <!-- Express Shipping (Only for <= 300) -->
+                        <?php $express_disabled = ($subtotal > 300); ?>
+                        <label class="shipping-option <?php echo $express_disabled ? 'disabled-option' : ''; ?>" 
+                               style="<?php echo $express_disabled ? 'opacity: 0.5; pointer-events: none;' : ''; ?>">
+                            <input type="radio" name="shipping_method" value="express" 
+                                <?php echo ($shipping_method === 'express') ? 'checked' : ''; ?> 
+                                <?php echo $express_disabled ? 'disabled' : ''; ?>
+                                onchange="updateShipping('express')">
                             <div class="shipping-option-info">
                                 <span class="shipping-option-name">Express Shipping</span>
-                                <span class="shipping-option-desc">₹120 or 10% (Lowest)</span>
+                                <span class="shipping-option-desc">₹80 or 10% (Lowest)</span>
                             </div>
-                            <span class="shipping-option-price">₹<?php echo number_format($shipping_options['express']); ?></span>
+                            <span class="shipping-option-price">₹<?php echo number_format($shipping_options['express'], 2); ?></span>
                         </label>
                         
-                        <!-- White Glove Delivery -->
-                        <label class="shipping-option <?php echo ($shipping_method === 'white_glove') ? 'selected' : ''; ?>">
-                            <input type="radio" name="shipping_method" value="white_glove" <?php echo ($shipping_method === 'white_glove') ? 'checked' : ''; ?> onchange="updateShipping('white_glove')">
+                        <!-- White Glove Delivery (Only for > 300) -->
+                        <?php $white_glove_disabled = ($subtotal <= 300); ?>
+                        <label class="shipping-option <?php echo $white_glove_disabled ? 'disabled-option' : ''; ?>"
+                               style="<?php echo $white_glove_disabled ? 'opacity: 0.5; pointer-events: none;' : ''; ?>">
+                            <input type="radio" name="shipping_method" value="white_glove" 
+                                <?php echo ($shipping_method === 'white_glove') ? 'checked' : ''; ?> 
+                                <?php echo $white_glove_disabled ? 'disabled' : ''; ?>
+                                onchange="updateShipping('white_glove')">
                             <div class="shipping-option-info">
                                 <span class="shipping-option-name">White Glove Delivery</span>
-                                <span class="shipping-option-desc">₹180 or 5% (Lowest)</span>
+                                <span class="shipping-option-desc">₹150 or 5% (Lowest)</span>
                             </div>
-                            <span class="shipping-option-price">₹<?php echo number_format($shipping_options['white_glove']); ?></span>
+                            <span class="shipping-option-price">₹<?php echo number_format($shipping_options['white_glove'], 2); ?></span>
                         </label>
 
-                        <!-- Freight Shipping -->
-                        <label class="shipping-option <?php echo ($shipping_method === 'freight') ? 'selected' : ''; ?>">
-                            <input type="radio" name="shipping_method" value="freight" <?php echo ($shipping_method === 'freight') ? 'checked' : ''; ?> onchange="updateShipping('freight')">
+                        <!-- Freight Shipping (Only for > 300) -->
+                        <?php $freight_disabled = ($subtotal <= 300); ?>
+                        <label class="shipping-option <?php echo $freight_disabled ? 'disabled-option' : ''; ?>"
+                               style="<?php echo $freight_disabled ? 'opacity: 0.5; pointer-events: none;' : ''; ?>">
+                            <input type="radio" name="shipping_method" value="freight" 
+                                <?php echo ($shipping_method === 'freight') ? 'checked' : ''; ?> 
+                                <?php echo $freight_disabled ? 'disabled' : ''; ?>
+                                onchange="updateShipping('freight')">
                             <div class="shipping-option-info">
                                 <span class="shipping-option-name">Freight Shipping</span>
                                 <span class="shipping-option-desc">3% or Min ₹250</span>
                             </div>
-                            <span class="shipping-option-price">₹<?php echo number_format($shipping_options['freight']); ?></span>
+                            <span class="shipping-option-price">₹<?php echo number_format($shipping_options['freight'], 2); ?></span>
                         </label>
                     </div>
+                </div>
+
+                <div class="promo-code-section">
+                    <label style="font-size: 0.9rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; display: block;">Promo Code</label>
+                    <div class="promo-input-group">
+                        <input type="text" id="promo-code" placeholder="Enter promo code">
+                        <button type="button" class="btn-apply" onclick="applyPromo()">Apply</button>
+                    </div>
+                    <div id="promo-message" style="display:none; font-size: 0.85rem; margin-top: 0.5rem;"></div>
                 </div>
 
                 <hr>
                 <div class="summary-total">
                     <span>Total</span>
-                    <span id="summary-total">₹<?php echo number_format($total); ?></span>
+                    <span id="summary-total">₹<?php echo number_format($total, 2); ?></span>
                 </div>
                 
                 <a href="#checkout-modal" class="checkout-btn" style="text-align: center; text-decoration: none;">Proceed to Checkout</a>
@@ -466,7 +604,7 @@ include '../includes/header.php';
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-block" id="checkout-btn-text">Place Order (₹<?php echo number_format($total); ?>)</button>
+                    <button type="submit" class="btn btn-block" id="checkout-btn-text">Place Order (₹<?php echo number_format($total, 2); ?>)</button>
                 </form>
             </div>
         </div>

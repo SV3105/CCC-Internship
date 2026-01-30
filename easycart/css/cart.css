@@ -339,6 +339,8 @@ footer .container {
     color: var(--text-primary);
 }
 
+/* Modern selector to ensure border always matches radio state */
+.shipping-option:has(input:checked),
 .shipping-option.selected {
     border-color: var(--accent-color);
     background: #f0f1ff;
@@ -671,4 +673,51 @@ footer .container {
     border-width: 5px;
     border-style: solid;
     border-color: #333 transparent transparent transparent;
+}
+
+/* Promo Code Section */
+.promo-code-section {
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.promo-input-group {
+    display: flex;
+    gap: 8px;
+    margin-top: 0.5rem;
+}
+
+.promo-input-group input {
+    flex: 1;
+    padding: 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    background: #fdfdfd;
+}
+
+.promo-input-group input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.btn-apply {
+    background: var(--text-primary);
+    color: white;
+    border: none;
+    padding: 0 1.25rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.btn-apply:hover {
+    background: #000;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }

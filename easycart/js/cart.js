@@ -10,12 +10,7 @@ function updateQty(productId, change) {
     let newQty = currentQty + change;
     if (newQty < 1) return;
 
-    if (newQty > 5) {
-        alert("Sorry only 5 products on each order");
-        // Reset input to current valid qty
-        qtyInput.value = currentQty; 
-        return;
-    }
+
 
     // Sync with session
     const formData = new FormData();
@@ -35,7 +30,7 @@ function updateQty(productId, change) {
             // Update item subtotal in UI
             const subtotalSpan = itemRow.querySelector('.item-subtotal-val');
             const newSubtotal = price * newQty;
-            subtotalSpan.textContent = new Intl.NumberFormat('en-IN').format(Math.round(newSubtotal));
+            subtotalSpan.textContent = new Intl.NumberFormat('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(newSubtotal);
             updateSummary(data.summary);
         }
     })
@@ -140,24 +135,75 @@ function updateSummary(summaryData = null) {
     const shipping = summaryData.shipping;
     const tax = summaryData.tax;
     const total = summaryData.total;
-    const mrp = summaryData.mrp;
-    const discount = summaryData.discount;
+    // const mrp = summaryData.mrp; // Not used
+    // const discount = summaryData.discount; // Not used
     const smartDiscount = summaryData.smart_discount;
     const smartReason = summaryData.reason;
+    const promoDiscount = summaryData.promo_discount;
+    const promoMessage = summaryData.promo_message;
     const cartCount = summaryData.count;
     const shippingOptions = summaryData.shipping_options;
 
     // Update Shipping Option Labels (Solve the Mismatch)
+    // Update Shipping Option Labels (Solve the Mismatch)
     if (shippingOptions) {
+        // Parse subtotal to float (remove commas)
+        const currentSubtotal = parseFloat(String(subtotal).replace(/,/g, ''));
+        const isSmallOrder = (currentSubtotal <= 300);
+        
+        // Define availability rules (Refined Grouping)
+        const rules = {
+            'standard': isSmallOrder,
+            'express': isSmallOrder,
+            'white_glove': !isSmallOrder,
+            'freight': !isSmallOrder
+        };
+
+        let currentMethod = document.querySelector('input[name="shipping_method"]:checked')?.value;
+        let methodChanged = false;
+
         Object.keys(shippingOptions).forEach(method => {
             const label = document.querySelector(`input[value="${method}"]`).closest('.shipping-option');
-            if (label) {
+            const input = document.querySelector(`input[value="${method}"]`);
+            
+            if (label && input) {
+                // Update Price Text
                 const priceSpan = label.querySelector('.shipping-option-price');
                 if (priceSpan) {
-                    priceSpan.textContent = '₹' + new Intl.NumberFormat('en-IN').format(Math.round(shippingOptions[method]));
+                    priceSpan.textContent = '₹' + new Intl.NumberFormat('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(shippingOptions[method]);
+                }
+
+                // Apply Availability Logic
+                const isAllowed = rules[method];
+                
+                if (isAllowed) {
+                    input.disabled = false;
+                    label.style.opacity = '1';
+                    label.style.pointerEvents = 'auto';
+                    label.classList.remove('disabled-option');
+                } else {
+                    input.disabled = true;
+                    label.style.opacity = '0.5';
+                    label.style.pointerEvents = 'none';
+                    label.classList.add('disabled-option');
+
+                    // If currently selected is now disabled, switch to a valid default
+                    if (currentMethod === method) {
+                        methodChanged = true;
+                    }
                 }
             }
         });
+
+        // If the selected method is no longer valid, switch to a valid default
+        if (methodChanged) {
+            let newDefault = isSmallOrder ? 'express' : 'freight';
+             const defaultInput = document.querySelector(`input[value="${newDefault}"]`);
+             if (defaultInput) {
+                 defaultInput.checked = true;
+                 updateShipping(newDefault); // Trigger update
+             }
+        }
     }
 
     // Update selected class on labels
@@ -170,14 +216,11 @@ function updateSummary(summaryData = null) {
     });
 
     // Update Summary UI
-    const mrpLabel = document.getElementById('summary-mrp-label');
-    if (mrpLabel) mrpLabel.textContent = `Price (${cartCount} items)`;
+    const priceLabel = document.getElementById('summary-price-label');
+    if (priceLabel) priceLabel.textContent = `Price (${cartCount} items)`;
 
-    const mrpElem = document.getElementById('summary-mrp');
-    if (mrpElem && mrp !== undefined) mrpElem.textContent = '₹' + new Intl.NumberFormat('en-IN').format(Math.round(mrp));
+    // Removed MRP & Discount updates
 
-    const discountElem = document.getElementById('summary-discount');
-    if (discountElem && discount !== undefined) discountElem.textContent = '-₹' + new Intl.NumberFormat('en-IN').format(Math.round(discount));
 
     const smartRow = document.getElementById('row-smart-discount');
     const smartElem = document.getElementById('summary-smart-discount');
@@ -186,29 +229,44 @@ function updateSummary(summaryData = null) {
     if (smartRow && smartElem) {
         if (smartDiscount > 0) {
             smartRow.style.display = 'flex';
-            smartElem.textContent = '-₹' + new Intl.NumberFormat('en-IN').format(Math.round(smartDiscount));
+            smartElem.textContent = '-₹' + new Intl.NumberFormat('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(smartDiscount);
             if (tooltipElem && smartReason) tooltipElem.textContent = smartReason;
         } else {
             smartRow.style.display = 'none';
         }
     }
 
+
+    const promoRow = document.getElementById('row-promo-discount');
+    const promoElem = document.getElementById('summary-promo-discount');
+    
+    if (promoRow && promoElem) {
+        if (promoDiscount > 0) {
+            promoRow.style.display = 'flex';
+            promoElem.textContent = '-₹' + new Intl.NumberFormat('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(promoDiscount);
+             const label = promoRow.querySelector('.promo-label');
+             if (label && promoMessage) label.textContent = promoMessage;
+        } else {
+             promoRow.style.display = 'none';
+        }
+    }
+
     const subtotalElem = document.getElementById('summary-subtotal');
-    if (subtotalElem) subtotalElem.textContent = '₹' + new Intl.NumberFormat('en-IN').format(Math.round(subtotal));
+    if (subtotalElem) subtotalElem.textContent = '₹' + new Intl.NumberFormat('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(subtotal);
     
     const shippingElem = document.getElementById('summary-shipping');
-    if (shippingElem) shippingElem.textContent = '₹' + new Intl.NumberFormat('en-IN').format(Math.round(shipping));
+    if (shippingElem) shippingElem.textContent = '₹' + new Intl.NumberFormat('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(shipping);
     
     const taxElem = document.getElementById('summary-tax');
-    if (taxElem) taxElem.textContent = '₹' + new Intl.NumberFormat('en-IN').format(Math.round(tax));
+    if (taxElem) taxElem.textContent = '₹' + new Intl.NumberFormat('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(tax);
     
     const totalElem = document.getElementById('summary-total');
-    if (totalElem) totalElem.textContent = '₹' + new Intl.NumberFormat('en-IN').format(Math.round(total));
+    if (totalElem) totalElem.textContent = '₹' + new Intl.NumberFormat('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(total);
     
     // Update Checkout Button Text
     const checkoutBtn = document.getElementById('checkout-btn-text');
     if (checkoutBtn) {
-        checkoutBtn.textContent = 'Place Order (₹' + new Intl.NumberFormat('en-IN').format(Math.round(total)) + ')';
+        checkoutBtn.textContent = 'Place Order (₹' + new Intl.NumberFormat('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(total) + ')';
     }
 
     // Sync Header Cart Count (Phase 5 Bonus)
@@ -282,3 +340,90 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// --- Promo Code Logic ---
+function applyPromo() {
+    const codeInput = document.getElementById('promo-code');
+    const messageDiv = document.getElementById('promo-message');
+    const code = codeInput.value.trim();
+    
+    // Reset state
+    messageDiv.style.display = 'none';
+    messageDiv.className = '';
+    
+
+
+    const promoRow = document.getElementById('row-promo-discount');
+    const isPromoActive = promoRow && promoRow.style.display !== 'none';
+
+    if (!code) {
+        if (!isPromoActive) {
+            messageDiv.textContent = 'Please enter a promo code.';
+            messageDiv.style.color = '#ef4444';
+            messageDiv.style.display = 'block';
+            return;
+        }
+    }
+
+    const formData = new FormData();
+    formData.append('action', 'apply_promo');
+    formData.append('code', code);
+
+    const btn = document.querySelector('.btn-apply');
+    const originalText = btn.textContent;
+    btn.textContent = 'Applying...';
+    btn.disabled = true;
+
+    fetch('cart.php', {
+        method: 'POST',
+        body: formData,
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+    .then(res => res.json())
+    .then(data => {
+        btn.textContent = originalText;
+        btn.disabled = false;
+
+        if (data.success) {
+            // Check if promo was actually applied or if it was invalid (implied by promo_discount > 0 or code being set)
+            // But our PHP sets session even if valid format but maybe 0 discount? 
+            // Let's rely on data.summary.promo_code
+            
+            if (data.summary.promo_code) {
+                messageDiv.textContent = `Promo code "${data.summary.promo_code}" applied!`;
+                messageDiv.style.color = '#16a34a';
+                messageDiv.style.display = 'block';
+                
+                // Visual feedback on button
+                btn.textContent = 'Applied!';
+                btn.style.background = '#16a34a';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '';
+                }, 2000);
+            } else {
+                 if (!code) {
+                     messageDiv.textContent = 'Promo code removed.';
+                     messageDiv.style.color = '#16a34a';
+                 } else {
+                     messageDiv.textContent = 'Invalid promo code used.';
+                     messageDiv.style.color = '#ef4444';
+                 }
+                 messageDiv.style.display = 'block';
+            }
+            updateSummary(data.summary);
+        } else {
+             messageDiv.textContent = 'Error applying code.';
+             messageDiv.style.color = '#ef4444';
+             messageDiv.style.display = 'block';
+        }
+    })
+    .catch(err => {
+        console.error('Error applying promo:', err);
+        btn.textContent = originalText;
+        btn.disabled = false;
+        messageDiv.textContent = 'System error. Try again.';
+        messageDiv.style.color = '#ef4444';
+        messageDiv.style.display = 'block';
+    });
+}

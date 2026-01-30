@@ -76,7 +76,7 @@ $filtered_products = array_filter($products, function($product) use ($selected_c
 });
 
 // --- PAGINATION LOGIC ---
-$limit = 12; // Products per page
+$limit = 16; // Products per page
 $page_num = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 if ($page_num < 1) $page_num = 1;
 
